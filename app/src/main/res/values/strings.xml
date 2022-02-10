@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MobiCall</string>
+    <string name="accessibility_service_description">This Service  is used for drawing over the apps</string>
+</resources>

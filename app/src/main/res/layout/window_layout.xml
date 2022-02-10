@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_gravity="center|top"
+    android:background="@drawable/shape_10dp"
+    android:elevation="10dp"
+    android:layout_margin="15dp"
+    android:id="@+id/layoutWindow"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/greyish"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textAllCaps="true"
+                    android:id="@+id/callType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:text="Incoming" />
+
+                <TextView
+                    android:id="@+id/callNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="start"
+                    android:text="Raj Sir"
+                    android:textColor="@color/main1" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_shape"
+                android:text="Personal"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/infoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/mainLayout"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/infoLayout"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonIntrested"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape"
+                android:text="Interested"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/buttonNotIntrested"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape"
+                android:text="Not Interested"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/expandLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonLayout"
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/intName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/input_shape"
+                android:hint="Name"
+                android:inputType="textPersonName"
+                android:padding="10dp"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/intEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/input_shape"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/intMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/input_shape"
+                android:hint="phone"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/intDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/input_shape"
+                android:hint="Description"
+                android:padding="10dp"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/buttonSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape"
+                android:text="Submit Data"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
