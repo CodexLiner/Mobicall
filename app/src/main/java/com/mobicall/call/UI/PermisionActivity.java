@@ -54,13 +54,8 @@ public class PermisionActivity extends AppCompatActivity {
         binding.buttonPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (STATUS == 0){
                    checkPermission();
-               }else if (STATUS == 1){
-                   overlayPermision();
-               }else if (STATUS == 2){
-//                   isAccess();
-               }
+
             }
         });
     }
@@ -88,8 +83,8 @@ public class PermisionActivity extends AppCompatActivity {
             alertDialog.show();
 
         }else {
-            binding.buttonPermission.setText("Allow Access Service");
-            binding.actionImage.setImageResource(R.drawable.ic_arasko_access);
+//            binding.buttonPermission.setText("Allow Access Service");
+//            binding.actionImage.setImageResource(R.drawable.ic_arasko_access);
             STATUS = 2;
             editor.putBoolean("overlay" , true);
             editor.apply();
@@ -110,20 +105,18 @@ public class PermisionActivity extends AppCompatActivity {
 
     private void checkPermission() {
         if (PermisionClass.hasPermision(PermisionActivity.this , PermisionClass.permisions)){
-            binding.buttonPermission.setText("Allow Overlay Permission");
-            binding.actionImage.setImageResource(R.drawable.ic_arasko_over);
             STATUS = 1;
             editor.putBoolean("perms" , true);
             editor.apply();
+            overlayPermision();
         }else{
             if (!PermisionClass.hasPermision(PermisionActivity.this , PermisionClass.permisions)){
                 ActivityCompat.requestPermissions(PermisionActivity.this, PermisionClass.permisions, 0);
-                binding.buttonPermission.setText("Allow Overlay Permission");
-                binding.actionImage.setImageResource(R.drawable.ic_arasko_over);
                 STATUS = 1;
                 editor.putBoolean("perms" , true);
                 editor.apply();
             }
+            overlayPermision();
         }
     }
 

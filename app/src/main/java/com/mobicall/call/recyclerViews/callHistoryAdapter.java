@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,7 @@ public class callHistoryAdapter extends RecyclerView.Adapter<callHistoryAdapter.
             int mYear = calendar.get(Calendar.HOUR);
             int mMonth = calendar.get(Calendar.DAY_OF_MONTH);
             int mDay = calendar.get(Calendar.MONTH);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm \na dd\nMMM");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a\n dd\nMMM YY");
             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd - MMM - YYYY ");
             String timeMinute = simpleDateFormat.format(calendar.getTime());
             String fullDate = simpleDateFormat2.format(calendar.getTime());
@@ -74,6 +75,7 @@ public class callHistoryAdapter extends RecyclerView.Adapter<callHistoryAdapter.
 
     class  Holder extends RecyclerView.ViewHolder {
         TextView time , date , type , duration , name;
+        ImageView wp , email ,sms;
         public Holder(@NonNull View itemView) {
             super(itemView);
             time = itemView.findViewById(R.id.callDate);

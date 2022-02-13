@@ -9,9 +9,9 @@
     <ImageView
         android:id="@+id/action_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@drawable/ic_arasko_permision"
+        android:src="@drawable/ic_arasko_pm2"
         app:layout_constraintBottom_toTopOf="@+id/buttonPermission"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="0dp"
         android:layout_weight="1"
         android:text="Allow Permission"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -28,18 +28,21 @@ public class callTask extends AsyncTask<Void , Void , Void> {
         Constants.indexValue = index + 1;
         Log.d("TAG", "doInBackground:i "+index);
         DrawWindow.setInWindow(contacts);
-       if (index <= contacts.size() - 1 && contacts.get(index)!=null && context!=null){
-           Log.d("TAG", "doInBackground: "+contacts.get(index).getCall_status());
-          if (contacts.get(index).getCall_status()==null ||  !contacts.get(index).getCall_status().equals("connected")){
-              Intent callIntent = new Intent(Intent.ACTION_CALL);
-              callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-              callIntent.setData(Uri.parse("tel:+91"+contacts.get(index).getPhone()));
-              context.startActivity(callIntent);
-          }else {
-              callTask callTask = new callTask(contacts, index+1 , context);
-              callTask.doInBackground();
-          }
-       }
+        if (!Constants.isWindowOpen){
+            if (index <= contacts.size() - 1 && contacts.get(index)!=null && context!=null){
+                Log.d("TAG", "doInBackground: "+contacts.get(index).getCall_status());
+                if (contacts.get(index).getCall_status()==null ||  !contacts.get(index).getCall_status().equals("connected")){
+                    Constants.byCallTask = true;
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    callIntent.setData(Uri.parse("tel:"+contacts.get(index).getPhone()));
+                    context.startActivity(callIntent);
+                }else {
+                    callTask callTask = new callTask(contacts, index+1 , context);
+                    callTask.doInBackground();
+                }
+            }
+        }
         return null;
     }
 }

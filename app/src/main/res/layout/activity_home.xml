@@ -7,400 +7,427 @@
     android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".UI.HomeActivity">
-    <LinearLayout
-        android:id="@+id/mLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-       <LinearLayout
-           android:background="@drawable/main_background_shape"
-           android:layout_width="match_parent"
-           android:layout_height="140dp"
-           android:orientation="vertical">
-           <LinearLayout
-               android:layout_marginTop="10dp"
-               android:layout_marginStart="10dp"
-               android:layout_marginEnd="10dp"
-               android:layout_width="match_parent"
-               android:layout_weight="1"
-               android:orientation="horizontal"
-               android:layout_height="0dp">
-               <TextView
-                   android:textColor="@color/white"
-                   android:layout_weight="1"
-                   android:layout_width="0dp"
-                   android:layout_height="wrap_content"
-                   android:text="Arasko IT Solutions"
-                   android:layout_gravity="center"
-                   android:layout_marginStart="10dp"
-                   android:fontFamily="sans-serif"
-                   android:textSize="23sp"/>
-               <ImageView
-                   android:foreground="?attr/selectableItemBackgroundBorderless"
-                   android:id="@+id/logOut"
-                   android:padding="5dp"
-                   android:elevation="10dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/ic_arasko_power"
-                   android:layout_gravity="center|end"
-                   android:layout_marginEnd="10dp"
-                   app:tint="@color/white" />
-
-
-           </LinearLayout>
-           <View
-               android:visibility="gone"
-               android:background="@color/white"
-               android:layout_width="match_parent"
-               android:layout_height="0.5dp"/>
-           <LinearLayout
-              android:layout_marginStart="10dp"
-               android:layout_marginEnd="10dp"
-               android:layout_width="match_parent"
-               android:layout_weight="2"
-               android:orientation="horizontal"
-               android:layout_height="0dp">
-               <LinearLayout
-                   android:layout_marginTop="5dp"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:orientation="vertical">
-
-                   <TextView
-                       android:id="@+id/userName"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_gravity="center"
-                       android:layout_marginStart="5dp"
-                       android:fontFamily="@font/acme"
-                       android:paddingTop="5dp"
-                       android:paddingBottom="2dp"
-                       android:textColor="@color/white"
-                       android:textSize="20sp" />
-                   <TextView
-                       android:id="@+id/userMobile"
-                       android:layout_marginStart="6dp"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_gravity="center"
-                       android:fontFamily="sans-serif"
-                       android:textSize="15sp"/>
-
-               </LinearLayout>
-
-           </LinearLayout>
-
-       </LinearLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
-            <LinearLayout
-                android:elevation="5dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/shape_10dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_width="0dp">>
-                <TextView
-                    android:background="@drawable/transparent_10"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Start Date"/>
-
-                <TextView
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:id="@+id/StartDate"
-                    android:fontFamily="sans-serif-black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="26 jan 22"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/ic_arasko_cale" />
-            </LinearLayout>
-            <LinearLayout
-                android:elevation="5dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/shape_10dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_width="0dp">
-                <TextView
-                    android:background="@drawable/transparent_10"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="End Date"/>
-                <TextView
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:id="@+id/EndDate"
-                    android:fontFamily="sans-serif-black"
-                    android:textColor="@color/black"
-                    android:padding="5dp"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="31 jan 22"
-                    app:drawableStartCompat="@drawable/ic_arasko_cale" />
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/mLayout2"
-            android:elevation="5dp"
-            android:background="@drawable/shape_10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
-                android:elevation="1dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal"
+                android:background="@drawable/main_background_shape"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
-                <TextView
-                    android:textSize="13sp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/poppins_medium"
+                android:layout_height="140dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:drawablePadding="15dp"
-                    android:layout_height="wrap_content"
-                    android:text="Total Interaction"
-                    android:layout_gravity="start|center"
-                    app:drawableStartCompat="@drawable/ic_arasko_total" />
-
-                <TextView
-                    android:id="@+id/totalCalled"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:layout_marginEnd="15dp"
-                    android:drawablePadding="15dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="end"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/greyish"/>
-            <LinearLayout
-                android:visibility="gone"
-                android:elevation="1dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-                <TextView
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/poppins_medium"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:textSize="13sp"
-                    android:drawablePadding="15dp"
-                    android:layout_height="wrap_content"
-                    android:text="Attempted"
-                    android:layout_gravity="start|center"
-                    app:drawableStartCompat="@drawable/ic_arasko_attempt" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
                     android:layout_marginEnd="10dp"
-                    android:drawablePadding="15dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="end"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="normal" />
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_height="0dp">
+                    <TextView
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Arasko IT Solutions"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="sans-serif"
+                        android:textSize="23sp"/>
+                    <ImageView
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:id="@+id/logOut"
+                        android:padding="5dp"
+                        android:elevation="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arasko_power"
+                        android:layout_gravity="center|end"
+                        android:layout_marginEnd="10dp"
+                        app:tint="@color/white" />
+
+
+                </LinearLayout>
+                <View
+                    android:visibility="gone"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"/>
+                <LinearLayout
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_height="0dp">
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/userName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:fontFamily="@font/acme"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="2dp"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+                        <TextView
+                            android:id="@+id/userMobile"
+                            android:layout_marginStart="6dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="sans-serif"
+                            android:textSize="15sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/greyish"/>
+
             <LinearLayout
-                android:textSize="13sp"
-                android:elevation="1dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="100dp">
+                <LinearLayout
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:id="@+id/startLayout"
+                    android:elevation="5dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shape_10dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginStart="10dp"
-                    android:drawablePadding="15dp"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="Connected"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/ic_arasko_conn" />
+                    android:orientation="vertical"
+                    android:layout_width="0dp">
+                    <TextView
+                        android:background="@drawable/transparent_10"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Start Date"/>
 
-                <TextView
-                    android:id="@+id/connected"
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/StartDate"
+                        android:fontFamily="sans-serif-black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="26 jan 22"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_arasko_cale" />
+                </LinearLayout>
+                <LinearLayout
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:id="@+id/EndDateLayout"
+                    android:elevation="5dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shape_10dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:layout_marginEnd="15dp"
-                    android:drawablePadding="15dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="end"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
+                    android:orientation="vertical"
+                    android:layout_width="0dp">
+                    <TextView
+                        android:background="@drawable/transparent_10"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="End Date"/>
+                    <TextView
+                        android:id="@+id/EndDate"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="@color/black"
+                        android:padding="5dp"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="31 jan 22"
+                        app:drawableStartCompat="@drawable/ic_arasko_cale" />
+                </LinearLayout>
+
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/greyish"/>
+            <TextView
+                android:textColor="@color/main2"
+                android:gravity="end|center"
+                android:layout_gravity="end|center"
+                android:id="@+id/clearFilter"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="5dp"
+                android:drawablePadding="2dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Clear Filter"
+                app:drawableTint="@color/main2"
+                app:drawableEndCompat="@drawable/ic_arasko_cross" />
             <LinearLayout
-                android:textSize="13sp"
-                android:elevation="1dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal"
+                android:elevation="5dp"
+                android:background="@drawable/shape_10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginStart="10dp"
-                    android:drawablePadding="15dp"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="Not Connected"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/ic_arasko_call" />
-
-                <TextView
-                    android:id="@+id/notConnected"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:elevation="1dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:layout_marginEnd="15dp"
-                    android:drawablePadding="15dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="end"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/greyish"/>
-            <LinearLayout
-                android:elevation="1dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-                <TextView
-                    android:textSize="13sp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/poppins_medium"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:drawablePadding="15dp"
-                    android:layout_height="wrap_content"
-                    android:text="Interested"
-                    android:layout_gravity="start|center"
-                    app:drawableStartCompat="@drawable/ic_arasko_int" />
+                    android:layout_height="50dp">
+                    <TextView
+                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="Total Interaction"
+                        android:layout_gravity="start|center"
+                        app:drawableStartCompat="@drawable/ic_arasko_total" />
 
-                <TextView
-                    android:id="@+id/intrested"
+                    <TextView
+                        android:id="@+id/totalCalled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="15dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:layout_marginEnd="15dp"
-                    android:drawablePadding="15dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="end"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/greyish"/>
-            <LinearLayout
-                android:elevation="1dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-                <TextView
-                    android:textSize="13sp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/poppins_medium"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:drawablePadding="15dp"
-                    android:layout_height="wrap_content"
-                    android:text="Not Interested"
-                    android:layout_gravity="start|center"
-                    app:drawableStartCompat="@drawable/ic_arasko_notin" />
+                    android:layout_height="0.5dp"
+                    android:background="@color/greyish"/>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:elevation="1dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+                    <TextView
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:textSize="13sp"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="Attempted"
+                        android:layout_gravity="start|center"
+                        app:drawableStartCompat="@drawable/ic_arasko_attempt" />
 
-                <TextView
-                    android:id="@+id/notIntrested"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="10dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:layout_marginEnd="15dp"
-                    android:drawablePadding="15dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="end"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="normal" />
+                    android:layout_height="0.5dp"
+                    android:background="@color/greyish"/>
+                <LinearLayout
+                    android:textSize="13sp"
+                    android:elevation="1dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="10dp"
+                        android:drawablePadding="15dp"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Connected"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_arasko_conn" />
+
+                    <TextView
+                        android:id="@+id/connected"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="15dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/greyish"/>
+                <LinearLayout
+                    android:textSize="13sp"
+                    android:elevation="1dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="10dp"
+                        android:drawablePadding="15dp"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Not Connected"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_arasko_call" />
+
+                    <TextView
+                        android:id="@+id/notConnected"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="15dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/greyish"/>
+                <LinearLayout
+                    android:elevation="1dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                    <TextView
+                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="Interested"
+                        android:layout_gravity="start|center"
+                        app:drawableStartCompat="@drawable/ic_arasko_int" />
+
+                    <TextView
+                        android:id="@+id/intrested"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="15dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/greyish"/>
+                <LinearLayout
+                    android:id="@+id/mLayout2"
+                    android:elevation="1dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                    <TextView
+                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:drawablePadding="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="Not Interested"
+                        android:layout_gravity="start|center"
+                        app:drawableStartCompat="@drawable/ic_arasko_notin" />
+
+                    <TextView
+                        android:id="@+id/notIntrested"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="15dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/greyish"/>
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/greyish"/>
+
         </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
-    <androidx.cardview.widget.CardView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/mLayout"
         app:cardElevation="50dp"
         android:elevation="20dp"
         android:layout_marginTop="-55dp"
@@ -413,6 +440,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:menu="@menu/bottom_menu"/>
-    </androidx.cardview.widget.CardView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

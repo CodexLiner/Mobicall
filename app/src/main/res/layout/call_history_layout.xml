@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,14 +13,14 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:layout_margin="10dp"
-            android:layout_width="50dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
-            android:text="12:44\nPm,21\nJAN"/>
+            android:text="12:44 Pm\n21 JAN 22"/>
        <LinearLayout
            android:layout_gravity="center"
            android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
+           android:layout_height="match_parent"
            android:orientation="vertical">
            <View
                android:layout_gravity="center"
@@ -40,7 +41,7 @@
                android:layout_marginEnd="5dp"
                android:paddingBottom="10dp"
                android:layout_width="2dp"
-               android:layout_height="80dp"
+               android:layout_height="match_parent"
                android:background="@color/grey"/>
        </LinearLayout>
         <LinearLayout
@@ -48,7 +49,7 @@
             android:layout_gravity="top"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:background="@drawable/shape_10dp">
             <LinearLayout
@@ -80,6 +81,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
+                    android:visibility="gone"
                     android:textSize="14sp"
                     android:layout_marginBottom="5dp"
                     android:id="@+id/callFulldate"
@@ -89,18 +91,26 @@
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/callDuration"
-                    android:layout_margin="5dp"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.44s" />
             </LinearLayout>
             <LinearLayout
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:padding="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arasko_play"
+                    android:layout_gravity="center"/>
+
             </LinearLayout>
 
         </LinearLayout>

@@ -4,10 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/button_shape.xml" value="0.24259259259259258" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/button_shape_green.xml" value="0.171" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/dialog_shape.xml" value="0.1655" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/fill2.xml" value="0.1655" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/fill_shape.xml" value="0.1655" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_access.xml" value="0.1655" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_attempt.xml" value="0.1655" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_call.xml" value="0.24259259259259258" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_check.xml" value="0.1655" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_conn.xml" value="0.1655" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_cross.xml" value="0.171" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_flags.xml" value="0.1655" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_int.xml" value="0.1655" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/ic_arasko_notin.xml" value="0.1655" />
@@ -19,17 +25,23 @@
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/round_shape.xml" value="0.1655" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/shape_10dp.xml" value="0.24722222222222223" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/splash.xml" value="0.1655" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/toast_shape.xml" value="0.1655" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/drawable/transparent_10.xml" value="0.24722222222222223" />
-        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_customer.xml" value="0.2" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_customer.xml" value="0.176" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_customer_details.xml" value="0.25" />
-        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_home.xml" value="0.17447916666666666" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_menu.xml" value="0.25" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_permision.xml" value="0.25" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_splash.xml" value="0.176" />
-        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/call_history_layout.xml" value="0.25" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/activity_template_list.xml" value="0.25" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/call_history_layout.xml" value="0.2" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/customer_list_layout.xml" value="0.2" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/dialog_layout.xml" value="0.25" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/dm.xml" value="0.25" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/round_shape.xml" value="0.25" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/template_layout.xml" value="0.25" />
+        <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/toast_layout.xml" value="0.25" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/layout/window_layout.xml" value="0.2" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
         <entry key="..\:/Users/meena/AndroidStudioProjects/Arasko/app/src/main/res/xml/access_service.xml" value="0.25" />

@@ -32,6 +32,7 @@ public class PermisionClass {
             Manifest.permission.WRITE_SYNC_SETTINGS,
             Manifest.permission.CALL_PHONE,
             Manifest.permission.READ_SMS,
+            Manifest.permission.WRITE_CONTACTS
 
     };
 }

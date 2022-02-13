@@ -3,6 +3,7 @@ package com.mobicall.call.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -15,6 +16,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -45,20 +47,29 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding;
     Calendar myCalendar =Calendar.getInstance();
+    SimpleDateFormat simpleDateFormat ;
+    boolean swiping = false;
+    static String startDateString = null;
+    static String endDateString = null;
+    static String initialDate = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +80,12 @@ public class HomeActivity extends AppCompatActivity {
         startService();
         updateLabel();
         verifyUser(this);
-        getTotalCounts();
+        getTotalCounts(null , null);
         setCurrentUser(getApplicationContext());
-        startService(new Intent(this , CallState.class));
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);;
+        startDateString = simpleDateFormat.format(Calendar.getInstance().getTime());
+        initialDate = simpleDateFormat.format(Calendar.getInstance().getTime());
+        startService(new Intent(HomeActivity.this , CallState.class));
         binding.bottomNav.setSelectedItemId(R.id.homeMenu);
         binding.bottomNav.setOnItemSelectedListener(
         new NavigationBarView.OnItemSelectedListener() {
@@ -99,49 +113,82 @@ public class HomeActivity extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
+                binding.startLayout.setEnabled(true);
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
                 String myFormat="dd MMM yy";
                 SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
                 binding.StartDate.setText(dateFormat.format(myCalendar.getTime()));
+                SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);
+                startDateString = newFormat.format(myCalendar.getTime());
+                getTotalCounts(initialDate , endDateString);
             }
         };
         DatePickerDialog.OnDateSetListener endDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
+                binding.EndDateLayout.setEnabled(true);
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
                 String myFormat="dd MMM yy";
                 SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
                 binding.EndDate.setText(dateFormat.format(myCalendar.getTime()));
+                SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);
+                endDateString = newFormat.format(myCalendar.getTime());
+                binding.clearFilter.setVisibility(View.VISIBLE);
+                getTotalCounts(startDateString , endDateString);
             }
         };
-        binding.StartDate.setOnClickListener(new View.OnClickListener() {
+        binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                new DatePickerDialog(HomeActivity.this,startDate,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-
+            public void onRefresh() {
+                swiping = true;
+                getTotalCounts(null , null);
             }
         });
-        binding.EndDate.setOnClickListener(new View.OnClickListener() {
+        binding.startLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                binding.startLayout.setEnabled(false);
+                new DatePickerDialog(HomeActivity.this,startDate,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                binding.startLayout.setEnabled(true);
+            }
+        });
+        binding.EndDateLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.EndDateLayout.setEnabled(false);
                 new DatePickerDialog(HomeActivity.this,endDate,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-
+                binding.EndDateLayout.setEnabled(true);
             }
         });
         binding.logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logOut();
+                new AlertDialog.Builder(HomeActivity.this)
+                        .setMessage("Are you sure you want to logout?")
+                        .setTitle("Alert!").setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logOut();
+                    }
+                }).setNegativeButton("NO", null).show();
+
             }
         });
         binding.totalCalled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        binding.clearFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.clearFilter.setVisibility(View.GONE);
+                getTotalCounts(null , null);
             }
         });
     }
@@ -152,14 +199,20 @@ public class HomeActivity extends AppCompatActivity {
         binding.bottomNav.setSelectedItemId(R.id.homeMenu);
     }
 
-    private void getTotalCounts() {
-        Gson gson = new Gson();
+    private void getTotalCounts(String start , String end) {
         userDatabaseHelper db = new userDatabaseHelper(getApplicationContext());
         userDatabaseModel model = db.getUser(0);
         if (model.getAuth()==null){
             return;
         }
-        Request request = new Request.Builder().url(Constants.baseUrlbackend +"overview").addHeader("authorization" , "Bearer "+model.getAuth()).get().build();
+        Log.d("TAG", "getTotalCounts: "+start);
+        Map<String , String> map = new HashMap<>();
+        map.put("from_date" , start);
+        map.put("to_date" , end);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(map);
+        final RequestBody requestBody = RequestBody.create(jsonString , MediaType.get(Constants.mediaType));
+        Request request = new Request.Builder().url(Constants.baseUrlbackend +"overview").addHeader("authorization" , "Bearer "+model.getAuth()).post(requestBody).build();
         new OkHttpClient()
                 .newCall(request)
                 .enqueue(
@@ -180,6 +233,11 @@ public class HomeActivity extends AppCompatActivity {
                                   runOnUiThread(new Runnable() {
                                       @Override
                                       public void run() {
+                                          if (swiping){
+                                              swiping= false;
+                                              binding.clearFilter.setVisibility(View.GONE);
+                                          }
+                                          binding.swipe.setRefreshing(false);
                                           binding.totalCalled.setText(count.getTotal());
                                           binding.notConnected.setText(count.getNot_connected());
                                           binding.connected.setText(count.getConnected());
@@ -227,9 +285,18 @@ public class HomeActivity extends AppCompatActivity {
                                 JSONObject jsonResponse = new JSONObject(response.body().string());
                                 Type type = new TypeToken<List<contacts>>(){}.getType();
                                 List<contacts> contactList = gson.fromJson(jsonResponse.optString("contacts").toString(), type);
-                                Snackbar snackbar = Snackbar
-                                        .make(binding.mLayout2, "Automatic call will starts in 10 seconds", Snackbar.LENGTH_LONG);
-                                snackbar.show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast toast = new Toast(HomeActivity.this);
+                                        View view = getLayoutInflater().inflate(R.layout.toast_layout , findViewById(R.id.mainLayout));
+                                        toast.setView(view);
+//                                        toast.setMargin(0f , 10f);
+                                        toast.setGravity(Gravity.BOTTOM, 0, 150);
+                                        toast.setDuration(Toast.LENGTH_SHORT);
+                                        toast.show();
+                                    }
+                                });
                                 new Timer().schedule(new TimerTask() {
                                     @Override
                                     public void run() {

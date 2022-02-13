@@ -47,10 +47,10 @@ public class UpdaterClass extends AsyncTask<Void , Void , Void> {
     private void loginVerify(){
         Map<String , String> map = new HashMap<>();
         if (!(interested == null && desc == null && talktime==null)){
-            map.put("interested" , interested.toString().trim());
-            map.put("description" , desc.toString().trim());
-            map.put("call_status" , call_status.toString().trim());
-            map.put("talktime" , talktime.toString().trim());
+            map.put("interested" , interested);
+            map.put("description" , desc);
+            map.put("call_status" , call_status);
+            map.put("talktime" , talktime);
             map.put("call_recording" , null);
         }else {
             map.put("call_status" , call_status.toString().trim());

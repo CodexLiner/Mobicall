@@ -15,7 +15,7 @@ public class contacts {
 //            "created_at": "2022-02-06T12:44:11.000000Z",
 //            "updated_at": "2022-02-06T12:45:20.000000Z"
 //    },
-    String id ,user_id,contact_name , phone , email , interested , description , call_status , talktime , call_recording , created_at , updated_at;
+    public String id ,user_id,contact_name , phone , email , interested , description , call_status , talktime , call_recording , created_at , updated_at;
 
     public contacts(String id, String user_id, String contact_name, String phone, String email, String interested, String description, String call_status, String talktime, String call_recording, String created_at, String updated_at) {
         this.id = id;
@@ -126,5 +126,23 @@ public class contacts {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    @Override
+    public String toString() {
+        return "contacts{" +
+                "id='" + id + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", contact_name='" + contact_name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", interested='" + interested + '\'' +
+                ", description='" + description + '\'' +
+                ", call_status='" + call_status + '\'' +
+                ", talktime='" + talktime + '\'' +
+                ", call_recording='" + call_recording + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                '}';
     }
 }
