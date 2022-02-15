@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -64,6 +66,29 @@ public class MenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext() , TemplateList.class);
                 intent.putExtra("uriName" , "sms");
                 startActivity(intent);
+            }
+        });
+        binding.helpFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userDatabaseHelper db = new userDatabaseHelper(getApplicationContext());
+                userDatabaseModel model = db.getUser(0);
+                if (model.getAuth()==null){
+                    return;
+                }
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ model.getcMail() , "support@mobicall.live"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback For "+model.getcName());
+                intent.putExtra(Intent.EXTRA_CC, new String[]{ "support@mobicall.live"});
+                intent.putExtra(Intent.EXTRA_TEXT, "Write Your Complaint or Feedback Here");
+                startActivity(intent);
+            }
+        });
+        binding.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MenuActivity.this, "Failed to Share", Toast.LENGTH_SHORT).show();
             }
         });
         binding.whatsapp.setEnabled(false);

@@ -29,11 +29,12 @@
                     android:orientation="horizontal"
                     android:layout_height="0dp">
                     <TextView
+                        android:id="@+id/CompanyName"
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Arasko IT Solutions"
+                        android:text="Company Name"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
                         android:fontFamily="sans-serif"

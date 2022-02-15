@@ -23,6 +23,7 @@ public class Constants {
     public static final String baseUrlbackend= "https://mobicall.live/api/";
     public static boolean isWindowOpen = false;
     public static boolean byCallTask = false;
+    public static boolean isLogin = false;
     public static int indexValue;
     public static List<contacts> windowContact;
     public static contacts CallHistory;

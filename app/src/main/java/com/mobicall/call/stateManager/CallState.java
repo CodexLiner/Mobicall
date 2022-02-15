@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -45,25 +46,33 @@ public class CallState extends BroadcastReceiver {
             if (phoneState.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 DrawWindow drawWindow = new DrawWindow(context);
                 String number = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                if (Constants.byCallTask){
-                    drawWindow.open("" , "");
-                }else {
-                    if (extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)!=null){
-                        staticFunctions.getContactinfo(extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER) , "incoming", context.getApplicationContext());
-                        Thread.sleep(2000);
-                        drawWindow.openWith();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (staticFunctions.compare(context)){
+                        if (Constants.byCallTask){
+                            drawWindow.open("" , "");
+                        }else {
+                            if (extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)!=null){
+                                staticFunctions.getContactinfo(extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER) , "incoming", context.getApplicationContext());
+                                Thread.sleep(2000);
+                                drawWindow.openWith();
+                            }
+                        }
                     }
                 }
 //                Constants.isWindowOpen = true;
             }else if (phoneState.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)/*&& pref.getInt("numOfCalls",1)==1*/) {
                 staticFunctions.getLastNumber(context);
                 DrawWindow drawWindow = new DrawWindow(context);
-                if (Constants.byCallTask){
-                    drawWindow.open("outgoing call" , "+919399846909");
-                }else {
-                    if (extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)!=null){
-                        staticFunctions.getContactinfo(extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER) , "outgoing", context);
-                        drawWindow.openWith();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (staticFunctions.compare(context)){
+                        if (Constants.byCallTask){
+                            drawWindow.open("outgoing call" , "+919399846909");
+                        }else {
+                            if (extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)!=null){
+                                staticFunctions.getContactinfo(extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER) , "outgoing", context);
+                                drawWindow.openWith();
+                            }
+                        }
                     }
                 }
 //                Constants.isWindowOpen = true;

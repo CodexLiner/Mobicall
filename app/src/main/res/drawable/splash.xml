@@ -5,6 +5,6 @@
         <bitmap
             android:mipMap="false"
             android:gravity="center"
-            android:src="@drawable/web_logo_png"/>
+            android:src="@drawable/logo_splash"/>
     </item>
 </layer-list>

@@ -1,6 +1,7 @@
 package com.mobicall.call.UI;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -30,6 +31,7 @@ import com.mobicall.call.database.userDatabaseModel;
 import com.mobicall.call.databinding.ActivityHomeBinding;
 import com.mobicall.call.models.contacts;
 import com.mobicall.call.models.totalCount;
+import com.mobicall.call.others.staticFunctions;
 import com.mobicall.call.services.DrawWindow;
 import com.mobicall.call.services.ForegroundService;
 import com.mobicall.call.services.PermisionClass;
@@ -257,9 +259,10 @@ public class HomeActivity extends AppCompatActivity {
         userDatabaseHelper db = new userDatabaseHelper(context);
         userDatabaseModel user = db.getUser(0);
         if (user!=null){
-
+            Log.d("TAG", "verifyUser: "+user.toString());
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void getContact(){
     Gson gson = new Gson();
     userDatabaseHelper db = new userDatabaseHelper(getApplicationContext());
@@ -267,6 +270,7 @@ public class HomeActivity extends AppCompatActivity {
     if (model.getAuth()==null){
         return;
     }
+        staticFunctions.compare(getApplicationContext());
     Request request = new Request.Builder().url(Constants.baseUrlbackend +"contacts").addHeader("authorization" , "Bearer "+model.getAuth()).get().build();
     new OkHttpClient()
             .newCall(request)
@@ -335,8 +339,10 @@ public class HomeActivity extends AppCompatActivity {
         userDatabaseHelper db = new userDatabaseHelper(context);
         userDatabaseModel user =db.getUser(0);
         if (user!=null){
+            Log.d("TAG", "setCurrentUser: "+user.toString());
             binding.userName.setText(user.getName());
             binding.userMobile.setText(user.getMobile());
+            binding.CompanyName.setText(user.getcName());
         }
     }
 

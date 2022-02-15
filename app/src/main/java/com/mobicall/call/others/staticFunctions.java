@@ -4,11 +4,14 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Looper;
 import android.provider.CallLog;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,6 +19,7 @@ import com.mobicall.call.database.userDatabaseHelper;
 import com.mobicall.call.database.userDatabaseModel;
 import com.mobicall.call.models.OtherCalls;
 import com.mobicall.call.models.contacts;
+import com.mobicall.call.recyclerViews.CustomerAdapter;
 import com.mobicall.call.services.DrawWindow;
 import com.mobicall.call.stateManager.Constants;
 
@@ -24,6 +28,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -60,7 +69,22 @@ public class staticFunctions {
         cur.close();
         return null;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static boolean compare(Context context) {
+        userDatabaseHelper db = new userDatabaseHelper(context);
+        userDatabaseModel m = db.getUser(0);
 
+            DateTimeFormatter f = DateTimeFormatter.ofPattern( "hh:mm:ss" );
+            LocalTime start = LocalTime.parse(m.getFrom() );
+            LocalTime end = LocalTime.parse( m.getTo());
+            LocalDateTime time = LocalDateTime.now();
+            LocalTime obj1 = LocalTime.parse( f.format(time));
+            Log.d(TAG, "startDatePicker: "+obj1+"  "+start +" "+end);
+            if ((start.equals(obj1) || start.isAfter(obj1)) && end.isBefore(obj1) || end.equals(obj1) ){
+                return true;
+            }
+            return false;
+    }
     public static void getContactinfo(String string ,String callType , Context context) {
         Gson gson = new Gson();
         userDatabaseHelper db = new userDatabaseHelper(context);

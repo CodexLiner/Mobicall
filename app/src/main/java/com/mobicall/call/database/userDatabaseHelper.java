@@ -21,7 +21,7 @@ public class userDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + userDatabaseModel.TABLE_NAME);
     }
-    public long insertUser(String mobile , String name , String email ,  String token , int ids) {
+    public long insertUser(String mobile , String name , String email ,  String token , int ids , String cName , String cEmail , String from , String toDate) {
         // get writable database as we want to write data
         userDatabaseModel c = getUser(ids);
         if (c!= null && c.getId()==ids){
@@ -35,6 +35,10 @@ public class userDatabaseHelper extends SQLiteOpenHelper {
         values.put(userDatabaseModel.NAME, name);
         values.put(userDatabaseModel.AUTHKEY, token);
         values.put(userDatabaseModel.COLUMN_ID, ids);
+        values.put(userDatabaseModel.COMPANYMAIL, cName);
+        values.put(userDatabaseModel.COMPANYNAME, cEmail);
+        values.put(userDatabaseModel.FROMDATE, from);
+        values.put(userDatabaseModel.TODATE, toDate);
         // insert row
         long id = db.insert(userDatabaseModel.TABLE_NAME, null, values);
         // close db connection
@@ -53,21 +57,25 @@ public class userDatabaseHelper extends SQLiteOpenHelper {
 
       try{
           Cursor cursor = db.query(userDatabaseModel.TABLE_NAME,
-                  new String[]{userDatabaseModel.COLUMN_ID, userDatabaseModel.COLUMN_NOTE,userDatabaseModel.DATE , userDatabaseModel.EMAIL,userDatabaseModel.NAME, userDatabaseModel.AUTHKEY},
+                  new String[]{userDatabaseModel.COLUMN_ID, userDatabaseModel.COLUMN_NOTE,userDatabaseModel.DATE , userDatabaseModel.EMAIL,userDatabaseModel.NAME, userDatabaseModel.COMPANYNAME,userDatabaseModel.COMPANYMAIL,userDatabaseModel.NAME, userDatabaseModel.FROMDATE,userDatabaseModel.TODATE ,userDatabaseModel.AUTHKEY},
                   userDatabaseModel.COLUMN_ID + "=?",
                   new String[]{String.valueOf(id)}, null, null, null, null);
 
           if (cursor != null)
               cursor.moveToFirst();
 
-          // prepare note object
+          // prepare db object
           userDatabaseModel note = new userDatabaseModel(
                   cursor.getInt(cursor.getColumnIndex(userDatabaseModel.COLUMN_ID)),
                   cursor.getString(cursor.getColumnIndex(userDatabaseModel.COLUMN_NOTE)),
                   cursor.getString(cursor.getColumnIndex(userDatabaseModel.AUTHKEY)),
                   cursor.getString(cursor.getColumnIndex(userDatabaseModel.EMAIL)),
                   cursor.getString(cursor.getColumnIndex(userDatabaseModel.NAME)),
-                  cursor.getString(cursor.getColumnIndex(userDatabaseModel.DATE))
+                  cursor.getString(cursor.getColumnIndex(userDatabaseModel.DATE)),
+                  cursor.getString(cursor.getColumnIndex(userDatabaseModel.COMPANYMAIL)),
+                  cursor.getString(cursor.getColumnIndex(userDatabaseModel.COMPANYNAME)),
+                  cursor.getString(cursor.getColumnIndex(userDatabaseModel.FROMDATE)),
+                  cursor.getString(cursor.getColumnIndex(userDatabaseModel.TODATE))
                  );
 
           // close the db connection

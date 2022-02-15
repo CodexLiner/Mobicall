@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.mobicall.call.R;
 import com.mobicall.call.database.userDatabaseHelper;
 import com.mobicall.call.databinding.ActivityMainBinding;
+import com.mobicall.call.models.CompanyModel;
 import com.mobicall.call.models.LoginVerify;
 import com.mobicall.call.models.user;
 import com.mobicall.call.services.PermisionClass;
@@ -102,18 +103,16 @@ ActivityMainBinding binding;
                   throws IOException {
                 Type listType = new TypeToken<List<LoginVerify>>() {}.getType();
                 // LoginVerify model = gson.fromJson(response.body().string(),listType);
-                Log.d("TAG", "onResponse: a");
                 try {
                   JSONObject jsonResponse = new JSONObject(response.body().string());
-                      Log.d("TAG", "onResponse: a2");
                     user user =
                         gson.fromJson(jsonResponse.getJSONObject("user").toString(), user.class);
                     String token;
-                    Log.d("TAG", "onResponse: a" + jsonResponse.optString("token"));
+                    CompanyModel cm = gson.fromJson(jsonResponse.getJSONObject("user").optString("admin").toString(), CompanyModel.class);
                     jsonResponse.optString("token");
                     token = jsonResponse.optString("token").toString().trim();
                     userDatabaseHelper db = new userDatabaseHelper(getApplicationContext());
-                    db.insertUser(user.getPhone(), user.getName(), user.getEmail(), token, 0);
+                    db.insertUser(user.getPhone(), user.getName(), user.getEmail(), token, 0 , cm.getCompany() , cm.getEmail() , user.getFrom_time() , user.getTo_time());
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                     finish();
 

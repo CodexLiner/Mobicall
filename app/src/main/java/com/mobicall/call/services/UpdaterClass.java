@@ -27,15 +27,18 @@ public class UpdaterClass extends AsyncTask<Void , Void , Void> {
     userDatabaseHelper db;
     userDatabaseModel model;
     com.mobicall.call.models.contacts contacts;
-    String id , desc , interested , call_status , talktime;
+    String id , desc , interested , call_status , talktime , name , number , email;
 
-    public UpdaterClass(String id, String desc, String interested, String call_status, String talktime , Context cn) {
+    public UpdaterClass(String id, String desc, String interested, String call_status, String talktime, Context context, String name, String number, String email) {
         this.id = id;
         this.desc = desc;
         this.interested = interested;
         this.call_status = call_status;
         this.talktime = talktime;
-        db = new userDatabaseHelper(cn);
+        this.name = name;
+        this.number = number;
+        this.email = email;
+        db = new userDatabaseHelper(context);
         model = db.getUser(0);
     }
 
@@ -47,6 +50,7 @@ public class UpdaterClass extends AsyncTask<Void , Void , Void> {
     private void loginVerify(){
         Map<String , String> map = new HashMap<>();
         if (!(interested == null && desc == null && talktime==null)){
+            map.put("id" , id);
             map.put("interested" , interested);
             map.put("description" , desc);
             map.put("call_status" , call_status);
@@ -59,7 +63,7 @@ public class UpdaterClass extends AsyncTask<Void , Void , Void> {
         Gson gson = new Gson();
         String jsonString = gson.toJson(map);
         final RequestBody requestBody = RequestBody.create(jsonString , MediaType.get(Constants.mediaType));
-        Request request = new Request.Builder().url(Constants.baseUrlbackend +"contact/"+id+"/edit").post(requestBody).addHeader("authorization" , "Bearer "+model.getAuth()).build();
+        Request request = new Request.Builder().url(Constants.baseUrlbackend +"contact/"+"edit").post(requestBody).addHeader("authorization" , "Bearer "+model.getAuth()).build();
         new OkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {

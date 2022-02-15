@@ -73,7 +73,6 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Holder
                 Uri uri = Uri.parse("smsto:+91"+mNumber);
                 Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
                 intent.putExtra("sms_body", finalMessage);
-                Log.d("TAG", "onClick: eed");
                 holder.itemView.getContext().startActivity(intent);
 
             }else if (type!=null && mNumber!=null && type.equals("email")){
@@ -82,7 +81,6 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Holder
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mNumber});
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Enter Subject Here");
                 intent.putExtra(Intent.EXTRA_TEXT, finalMessage);
-                Log.d("TAG", "onClick: "+mNumber);
                 holder.tContent.getContext().startActivity(intent);
 
             } }
