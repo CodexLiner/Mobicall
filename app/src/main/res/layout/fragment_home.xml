@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".UI.HomeActivity">
-    <FrameLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/content">
-
-    </FrameLayout>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UI.Fragments.HomeFragment">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe"
         android:layout_width="wrap_content"
@@ -25,7 +16,7 @@
             <LinearLayout
                 android:background="@drawable/main_background_shape"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="140dp"
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -140,7 +131,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="01 jan 22"
+                        android:text="26 jan 22"
                         android:textColor="@color/black"
                         app:drawableStartCompat="@drawable/ic_arasko_cale" />
                 </LinearLayout>
@@ -438,20 +429,4 @@
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/mLayout"
-        app:cardElevation="50dp"
-        android:elevation="20dp"
-        android:layout_marginTop="-55dp"
-        android:layout_width="match_parent"
-        android:layout_height="55dp">
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:paddingTop="10dp"
-            android:id="@+id/bottomNav"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:menu="@menu/bottom_menu"/>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</LinearLayout>
+</FrameLayout>

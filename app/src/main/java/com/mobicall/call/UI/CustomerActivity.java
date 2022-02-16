@@ -51,6 +51,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,6 +75,7 @@ class pair{
 }
 public class CustomerActivity extends AppCompatActivity {
     private static final String TAG = "TAG";
+    public static boolean isFilter = false;
     ActivityCustomerBinding binding;
     Calendar myCalendar =Calendar.getInstance();
     RecyclerView.LayoutManager layoutManager;
@@ -112,6 +114,10 @@ public class CustomerActivity extends AppCompatActivity {
             binding.totalCustomer.setVisibility(View.VISIBLE);
             adapter = new CustomerAdapter(Constants.CustomerList);
             binding.customerRecycler.setAdapter(adapter);
+            if (getIntent().getStringExtra("vargs")!=null){
+                isFilter = true;
+                startFilter(new String[]{"", getIntent().getStringExtra("vargs") , ""});
+            }
         }
         binding.filterList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,6 +378,7 @@ public class CustomerActivity extends AppCompatActivity {
         list.add(new SortByName());
 
         if (Constants.CustomerList!=null){
+            Log.d(TAG, "startFilter: "+sortFilter[1]);
             List<contacts> newList = new ArrayList<>();
             if (sortFilter[0].equals("name")){
                 Collections.sort(Constants.CustomerList , new SortByName());
@@ -394,7 +401,7 @@ public class CustomerActivity extends AppCompatActivity {
                    }
                }else {
                    for (int i = 0; i < Constants.CustomerList.size(); i++) {
-                       if (Constants.CustomerList.get(i).getCall_status() !=null && Constants.CustomerList.get(i).getCall_status().toString().equals(sortFilter[1])){
+                       if (Constants.CustomerList.get(i).getCall_status() !=null && Constants.CustomerList.get(i).getCall_status().toString().equalsIgnoreCase(sortFilter[1])){
                            newList.add(Constants.CustomerList.get(i));
                        }
 
@@ -434,6 +441,9 @@ public class CustomerActivity extends AppCompatActivity {
         binding.EndDate.setText(dateFormat.format(myCalendar.getTime()));
     }
     private void getContact(){
+        if (isFilter){
+            return;
+        }
         Gson gson = new Gson();
         userDatabaseHelper db = new userDatabaseHelper(getApplicationContext());
         userDatabaseModel model = db.getUser(0);

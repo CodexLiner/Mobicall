@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
@@ -25,6 +26,9 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.mobicall.call.R;
+import com.mobicall.call.UI.Fragments.CustomerFragment;
+import com.mobicall.call.UI.Fragments.HomeFragment;
+import com.mobicall.call.UI.Fragments.MenuFragment;
 import com.mobicall.call.database.callHistory;
 import com.mobicall.call.database.userDatabaseHelper;
 import com.mobicall.call.database.userDatabaseModel;
@@ -88,6 +92,11 @@ public class HomeActivity extends AppCompatActivity {
         startDateString = simpleDateFormat.format(Calendar.getInstance().getTime());
         initialDate = simpleDateFormat.format(Calendar.getInstance().getTime());
         startService(new Intent(HomeActivity.this , CallState.class));
+        // home fragment
+//        HomeFragment fragment=new HomeFragment();
+//        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.content,fragment,"");
+//        fragmentTransaction.commit();
         binding.bottomNav.setSelectedItemId(R.id.homeMenu);
         binding.bottomNav.setOnItemSelectedListener(
         new NavigationBarView.OnItemSelectedListener() {
@@ -99,14 +108,32 @@ public class HomeActivity extends AppCompatActivity {
                   startActivity(new Intent(HomeActivity.this, CustomerActivity.class));
                   overridePendingTransition(0,0);
                   break;
+//                    CustomerFragment customerFragment = new CustomerFragment();
+//                    FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction1.replace(R.id.content, customerFragment , "");
+//                    fragmentTransaction1.commit();
+//                    return true;
+
+                }
+                case R.id.homeMenu:{
+//                    HomeFragment fragment=new HomeFragment();
+//                    FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.replace(R.id.content,fragment,"");
+//                    fragmentTransaction.commit();
+                    return true;
                 }
               case R.id.menuMore:
                 {
-                  startActivity(new Intent(HomeActivity.this, MenuActivity.class));
+                    startActivity(new Intent(HomeActivity.this, MenuActivity.class));
                     overridePendingTransition(0,0);
                     break;
+//                    MenuFragment menuFragment = new MenuFragment();
+//                    FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction2.replace(R.id.content, menuFragment, "");
+//                    fragmentTransaction2.commit();
 
                 }
+
             }
             return true;
           }
@@ -193,6 +220,37 @@ public class HomeActivity extends AppCompatActivity {
                 getTotalCounts(null , null);
             }
         });
+
+        binding.totalIntraction.setOnClickListener((View v)->{
+            Intent intent = new Intent(this , CustomerActivity.class);
+            intent.putExtra("vargs" , "");
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        });
+        binding.conn.setOnClickListener((View v)->{
+            Intent intent = new Intent(this , CustomerActivity.class);
+            intent.putExtra("vargs" , "connected");
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        });
+        binding.notconn.setOnClickListener((View v)->{
+            Intent intent = new Intent(this , CustomerActivity.class);
+            intent.putExtra("vargs" , "not connected");
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        });
+        binding.inte.setOnClickListener((View v)->{
+            Intent intent = new Intent(this , CustomerActivity.class);
+            intent.putExtra("vargs" , "1");
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        });
+        binding.mLayout2.setOnClickListener((View v)->{
+            Intent intent = new Intent(this , CustomerActivity.class);
+            intent.putExtra("vargs" , "0");
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        });
     }
 
     @Override
@@ -254,7 +312,6 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         });
     }
-
     private void verifyUser(HomeActivity context) {
         userDatabaseHelper db = new userDatabaseHelper(context);
         userDatabaseModel user = db.getUser(0);
@@ -332,7 +389,7 @@ public class HomeActivity extends AppCompatActivity {
     private void updateLabel(){
         String myFormat="dd MMM yy";
         SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
-        binding.StartDate.setText(dateFormat.format(myCalendar.getTime()));
+//        binding.StartDate.setText(dateFormat.format(myCalendar.getTime()));
         binding.EndDate.setText(dateFormat.format(myCalendar.getTime()));
     }
     private void setCurrentUser(Context context) {

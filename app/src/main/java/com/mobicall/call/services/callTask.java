@@ -29,7 +29,7 @@ public class callTask extends AsyncTask<Void , Void , Void> {
         Constants.indexValue = index + 1;
         Log.d("TAG", "doInBackground:i "+index);
         DrawWindow.setInWindow(contacts);
-        if (staticFunctions.compare(context)){
+        if (staticFunctions.compare(context) && Constants.isLogin){
             if (!Constants.isWindowOpen){
                 if (index <= contacts.size() - 1 && contacts.get(index)!=null && context!=null){
                     Log.d("TAG", "doInBackground: "+contacts.get(index).getCall_status());

@@ -20,10 +20,11 @@ public class Constants {
     public static final int RECORDING_DISABLED = 5;
     public static final int OUTGOING = 7;
     public static final String mediaType = "application/json; charset=utf-8";
-    public static final String baseUrlbackend= "https://mobicall.live/api/";
+    public static final String baseUrlbackend= "https://mobicall.live/public/api/";
     public static boolean isWindowOpen = false;
     public static boolean byCallTask = false;
     public static boolean isLogin = false;
+    public static String NOTIFICATION = "Play/Pause";
     public static int indexValue;
     public static List<contacts> windowContact;
     public static contacts CallHistory;

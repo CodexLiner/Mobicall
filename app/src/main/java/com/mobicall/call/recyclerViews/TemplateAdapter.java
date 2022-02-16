@@ -1,11 +1,17 @@
 package com.mobicall.call.recyclerViews;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobicall.call.R;
+import com.mobicall.call.UI.CustomerActivity;
 import com.mobicall.call.database.userDatabaseHelper;
 import com.mobicall.call.database.userDatabaseModel;
 import com.mobicall.call.models.TemplateModel;
@@ -55,10 +62,36 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Holder
         if (mList.get(position).getName()!=null){
             holder.tHead.setText(mList.get(position).getName());
         }
+        String finalMessage1 = message;
+        holder.expand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WindowManager wm = (WindowManager) holder.expand.getContext().getSystemService(Context.WINDOW_SERVICE);
+                Display display = wm.getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                int height = size.y;
+
+                Dialog dialog = new Dialog(holder.layout.getContext());
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                layoutParams.width = width - 10;
+                dialog.getWindow().setAttributes(layoutParams);
+                dialog.setContentView(R.layout.dialog_layout_2);
+                TextView tc = dialog.findViewById(R.id.tcontent);
+                TextView th =dialog.findViewById(R.id.tHead);
+                tc.setText(finalMessage1);
+                dialog.show();
+                dialog.findViewById(R.id.close).setOnClickListener((View vc)->{
+                    dialog.dismiss();
+                });
+            }
+        });
         String finalMessage = message;
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+          public void onClick(View v) {
             if (type!=null && mNumber!=null && type.equals("wp")){
                 String phoneNumberWithCountryCode = "+91"+mNumber;
                 Log.d("TAG", "onClick: eed");
@@ -81,9 +114,11 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Holder
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mNumber});
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Enter Subject Here");
                 intent.putExtra(Intent.EXTRA_TEXT, finalMessage);
-                holder.tContent.getContext().startActivity(intent);
+                holder.itemView.getContext().startActivity(intent);
+            }
 
-            } }
+          }
+
         });
     }
 
@@ -94,12 +129,14 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Holder
 
     static class Holder extends RecyclerView.ViewHolder {
         TextView tHead , tContent;
+        ImageView expand;
         LinearLayout layout;
         public Holder(@NonNull View itemView) {
             super(itemView);
             tContent = itemView.findViewById(R.id.tcontent);
             tHead = itemView.findViewById(R.id.tHead);
             layout = itemView.findViewById(R.id.templateMain);
+            expand = itemView.findViewById(R.id.expand);
         }
     }
 }

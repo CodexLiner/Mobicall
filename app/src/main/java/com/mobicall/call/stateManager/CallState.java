@@ -47,7 +47,7 @@ public class CallState extends BroadcastReceiver {
                 DrawWindow drawWindow = new DrawWindow(context);
                 String number = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    if (staticFunctions.compare(context)){
+                    if (staticFunctions.compare(context) && Constants.isLogin){
                         if (Constants.byCallTask){
                             drawWindow.open("" , "");
                         }else {
@@ -64,7 +64,7 @@ public class CallState extends BroadcastReceiver {
                 staticFunctions.getLastNumber(context);
                 DrawWindow drawWindow = new DrawWindow(context);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    if (staticFunctions.compare(context)){
+                    if (staticFunctions.compare(context) && Constants.isLogin){
                         if (Constants.byCallTask){
                             drawWindow.open("outgoing call" , "+919399846909");
                         }else {

@@ -15,6 +15,7 @@ import com.mobicall.call.database.userDatabaseModel;
 import com.mobicall.call.models.TemplateModel;
 import com.mobicall.call.models.contacts;
 import com.mobicall.call.recyclerViews.CustomerAdapter;
+import com.mobicall.call.stateManager.CallState;
 import com.mobicall.call.stateManager.Constants;
 
 import org.json.JSONException;
@@ -46,7 +47,8 @@ public class splash extends AppCompatActivity {
             getEmails();
             getContact();
         }
-
+        Intent intent = new Intent(this , CallState.class);
+        startService(intent);
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {

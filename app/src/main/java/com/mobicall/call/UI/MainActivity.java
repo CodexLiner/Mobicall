@@ -53,6 +53,7 @@ ActivityMainBinding binding;
         checkOverlayPermission();
         userDatabaseHelper db = new userDatabaseHelper(getApplicationContext());
         if (db.getUser(0)!=null){
+            Constants.isLogin = true;
             startActivity(new Intent(getApplicationContext() , HomeActivity.class));
             overridePendingTransition(0,0);
             finish();
