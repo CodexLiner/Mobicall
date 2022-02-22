@@ -437,7 +437,7 @@ public class CustomerActivity extends AppCompatActivity {
     private void updateLabel(){
         String myFormat="dd MMM yy";
         SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
-        binding.StartDate.setText(dateFormat.format(myCalendar.getTime()));
+//        binding.StartDate.setText(dateFormat.format(myCalendar.getTime()));
         binding.EndDate.setText(dateFormat.format(myCalendar.getTime()));
     }
     private void getContact(){
@@ -531,24 +531,24 @@ public class CustomerActivity extends AppCompatActivity {
         new OkHttpClient()
                 .newCall(request)
                 .enqueue(
-                        new Callback() {
-                            @Override
-                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                Log.d("TAG", "onFailure: a" + e);
+                    new Callback() {
+                        @Override
+                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                            Log.d("TAG", "onFailure: a" + e);
+                        }
+
+                        @Override
+                        public void onResponse(@NonNull Call call, @NonNull Response response)
+                                throws IOException {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response.body().string());
+                                Type type = new TypeToken<List<TemplateModel>>(){}.getType();
+                                Constants.EmailTemplates = gson.fromJson(jsonResponse.optString("email_templates").toString(),type);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
 
-                            @Override
-                            public void onResponse(@NonNull Call call, @NonNull Response response)
-                                    throws IOException {
-                                try {
-                                    JSONObject jsonResponse = new JSONObject(response.body().string());
-                                    Type type = new TypeToken<List<TemplateModel>>(){}.getType();
-                                    Constants.EmailTemplates = gson.fromJson(jsonResponse.optString("email_templates").toString(),type);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        });
+                        }
+                    });
     }
 }

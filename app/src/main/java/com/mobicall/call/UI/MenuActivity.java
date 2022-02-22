@@ -25,6 +25,7 @@ import com.mobicall.call.stateManager.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -88,9 +89,13 @@ public class MenuActivity extends AppCompatActivity {
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(Intent.ACTION_VIEW);
-               intent.setData(Uri.parse("https://mobicall.live/public/mobicall.apk"));
-               startActivity(intent);
+               Intent intent = new Intent(Intent.ACTION_SEND);
+               intent.setType("text/plan");
+               intent.putExtra(Intent.EXTRA_SUBJECT, "Download Mobicall.live");
+               intent.putExtra(Intent.EXTRA_SUBJECT, "Download Mobicall.live");
+               intent.putExtra(Intent.EXTRA_TEXT, "Download Mobicall Apk From Given Link\nhttps://mobicall.live/public/mobicall.apk");
+            //   intent.setData(Uri.parse("https://mobicall.live/public/mobicall.apk"));
+               startActivity(Intent.createChooser(intent ,"Mobicall.live"));
             }
         });
         binding.whatsapp.setEnabled(false);

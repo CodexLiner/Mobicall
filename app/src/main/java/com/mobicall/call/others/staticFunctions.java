@@ -28,11 +28,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
@@ -73,17 +75,12 @@ public class staticFunctions {
     public static boolean compare(Context context) {
         userDatabaseHelper db = new userDatabaseHelper(context);
         userDatabaseModel m = db.getUser(0);
-
-            DateTimeFormatter f = DateTimeFormatter.ofPattern( "hh:mm:ss" );
-            LocalTime start = LocalTime.parse(m.getFrom() );
+            DateTimeFormatter f = DateTimeFormatter.ofPattern( "HH:mm" );
+            LocalTime start = LocalTime.parse(m.getFrom());
             LocalTime end = LocalTime.parse( m.getTo());
             LocalDateTime time = LocalDateTime.now();
             LocalTime obj1 = LocalTime.parse( f.format(time));
-            Log.d(TAG, "startDatePicker: "+obj1+"  "+start +" "+end);
-            if ((start.equals(obj1) || start.isAfter(obj1)) && end.isBefore(obj1) || end.equals(obj1) ){
-                return true;
-            }
-            return false;
+        return (start.equals(obj1) || obj1.isAfter(start)) && obj1.isBefore(end);
     }
     public static void getContactinfo(String string ,String callType , Context context) {
         Gson gson = new Gson();

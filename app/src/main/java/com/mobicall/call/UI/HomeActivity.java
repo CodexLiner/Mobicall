@@ -51,8 +51,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -87,6 +89,8 @@ public class HomeActivity extends AppCompatActivity {
         updateLabel();
         verifyUser(this);
         getTotalCounts(null , null);
+        staticFunctions.compare(this);
+
         setCurrentUser(getApplicationContext());
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);;
         startDateString = simpleDateFormat.format(Calendar.getInstance().getTime());
@@ -316,6 +320,24 @@ public class HomeActivity extends AppCompatActivity {
         userDatabaseHelper db = new userDatabaseHelper(context);
         userDatabaseModel user = db.getUser(0);
         if (user!=null){
+            try {
+                final SimpleDateFormat sdf = new SimpleDateFormat("H:mm" , Locale.US);
+                final Date endTime = sdf.parse(user.getTo());
+                final Date startTime = sdf.parse(user.getFrom());
+                String et , st;
+                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("K:mm: a" , Locale.US);
+                et = simpleDateFormat1.format(endTime);
+                st = simpleDateFormat1.format(startTime);
+              runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                      String slot = "( "+ st+" To "+et+" )";
+                      binding.userSlot.setText(slot);
+                  }
+              });
+            } catch (final ParseException e) {
+                e.printStackTrace();
+            }
             Log.d("TAG", "verifyUser: "+user.toString());
         }
     }

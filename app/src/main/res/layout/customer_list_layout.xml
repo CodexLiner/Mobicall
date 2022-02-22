@@ -37,7 +37,7 @@
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TheGrandOrchid"/>
+                    android:text=""/>
                 <TextView
                     android:layout_marginTop="2dp"
                     android:id="@+id/customerNumber"
@@ -46,7 +46,7 @@
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="+919399846909"/>
+                    android:text=""/>
             </LinearLayout>
             <LinearLayout
                 android:gravity="center|end"

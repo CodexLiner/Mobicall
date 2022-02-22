@@ -38,8 +38,8 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.holder
     @Override
     public void onBindViewHolder(@NonNull holder holder, int position) {
         int i = position;
-
-        if (mList.get(position).getCall_status()!=null){
+//        Log.d("TAG", "onBindViewHolder: "+mList.toString());
+        if (mList.get(position)!=null){
             holder.customerName.setText(mList.get(position).getContact_name());
             if (mList.get(i).getCall_status()!=null){
                 holder.callStatus.setText(mList.get(i).getCall_status());
@@ -89,7 +89,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.holder
         return mList.size();
     }
 
-    class holder extends RecyclerView.ViewHolder {
+    static class holder extends RecyclerView.ViewHolder {
         LinearLayout listLayout;
         ImageView whatsapp ,sms , call;
         TextView customerName , callStatus , customerNumber;

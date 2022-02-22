@@ -126,8 +126,8 @@ public class DrawWindow {
             mView.findViewById(R.id.buttonNotIntrested).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (inWindow!=null){
-                        String time = staticFunctions.getLastCallTime(context , Constants.windowContact.get(Constants.indexValue - 1).getPhone());
+                    if (Constants.byCallTask && inWindow!=null){
+                        String time = staticFunctions.getLastCallTime(context ,null);
                         UpdaterClass updaterClass = new UpdaterClass(inWindow.get(Constants.indexValue- 1).getId() ,
                                 null , null, "connected" , time , context,
                                 inWindow.get(Constants.indexValue- 1).getContact_name()
@@ -192,13 +192,17 @@ public class DrawWindow {
             mView.findViewById(R.id.buttonSubmit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (inWindow!=null){
-                       String time = staticFunctions.getLastCallTime(context , Constants.windowContact.get(Constants.indexValue - 1).getPhone());
-                       String callStatus ="connected";
-                       if (time.equals("0")){
-                           callStatus ="not connected";
-                       }
-                        UpdaterClass updaterClass = new UpdaterClass(inWindow.get(Constants.indexValue- 1).getId() ,
+                    if (Constants.byCallTask && inWindow!=null){
+                        String time = staticFunctions.getLastCallTime(context , null);
+                        String callStatus ="connected";
+                        if (time.equals("0")){
+                            callStatus ="not connected";
+                        }
+                        String id = null;
+                        if (inWindow.get(Constants.indexValue- 1) !=null && inWindow.get(Constants.indexValue- 1).getId()!=null){
+                            id = inWindow.get(Constants.indexValue- 1).getId();
+                        }
+                        UpdaterClass updaterClass = new UpdaterClass(id ,
                                 desc.getText().toString().trim() ,
                                 "1", callStatus , time, context ,
                                 inWindow.get(Constants.indexValue- 1).getContact_name()
@@ -212,13 +216,14 @@ public class DrawWindow {
                                 callTask.execute();
                             }
                         },5000);
-                    }else {
+                    } else {
+                        String id = null;
                         String time = staticFunctions.getLastCallTime(context , null);
                         String callStatus ="connected";
                         if (time.equals("0")){
                             callStatus ="not connected";
                         }
-                        UpdaterClass updaterClass = new UpdaterClass(inWindow.get(Constants.indexValue- 1).getId() ,
+                        UpdaterClass updaterClass = new UpdaterClass(id ,
                                 desc.getText().toString().trim() ,
                                 "1", callStatus , time, context ,
                                 name.getText().toString()

@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Constants {
     public static final String TAG = "Call recorder";
-
     public static final String FILE_NAME_PATTERN = "^[\\d]{14}_[_\\d]*\\..+$";
     public static List<TemplateModel> whatsAppTemplates;
     public static List<TemplateModel> EmailTemplates;
