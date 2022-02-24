@@ -255,6 +255,18 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(0,0);
         });
+        if (Constants.TotalCount!=null){
+            if (swiping){
+                swiping= false;
+                binding.clearFilter.setVisibility(View.GONE);
+            }
+            binding.swipe.setRefreshing(false);
+            binding.totalCalled.setText(Constants.TotalCount.getTotal());
+            binding.notConnected.setText(Constants.TotalCount.getNot_connected());
+            binding.connected.setText(Constants.TotalCount.getConnected());
+            binding.intrested.setText(Constants.TotalCount.getInterested());
+            binding.notIntrested.setText(Constants.TotalCount.getNot_interested());
+        }
     }
 
     @Override
@@ -294,6 +306,7 @@ public class HomeActivity extends AppCompatActivity {
                                     JSONObject jsonResponse = new JSONObject(response.body().string());
                                     Type type = new TypeToken<List<contacts>>(){}.getType();
                                     totalCount count = gson.fromJson(jsonResponse.toString(), totalCount.class);
+                                    Constants.TotalCount = count;
                                   runOnUiThread(new Runnable() {
                                       @Override
                                       public void run() {
@@ -447,7 +460,21 @@ public class HomeActivity extends AppCompatActivity {
             alertDialog.show();
 
         }else {
-            getContact();
+            if (Constants.CustomerList==null){
+                getContact();
+            }else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = new Toast(HomeActivity.this);
+                        View view = getLayoutInflater().inflate(R.layout.toast_layout , findViewById(R.id.mainLayout));
+                        toast.setView(view);
+                        toast.setGravity(Gravity.BOTTOM, 0, 150);
+                        toast.setDuration(Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+            }
         }
     }
     public void startService(){

@@ -56,13 +56,13 @@ public class ForegroundService extends Service {
     @RequiresApi(Build.VERSION_CODES.O)
     public void startMyOwnForeground()
     {
-        String NOTIFICATION_CHANNEL_ID = "example.permanence";
+        String NOTIFICATION_CHANNEL_ID = "Mobicall.service";
         String channelName = "Background Service";
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_MIN);
         Intent intent = new Intent(this , ActionReceiver.class);
         intent.putExtra("isBreak" , true);
 
-        PendingIntent p = PendingIntent.getBroadcast(getApplicationContext(),1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent p = PendingIntent.getBroadcast(getApplicationContext(),1,intent,PendingIntent.FLAG_MUTABLE);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         assert manager != null;

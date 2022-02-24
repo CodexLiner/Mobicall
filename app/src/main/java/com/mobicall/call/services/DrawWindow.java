@@ -238,7 +238,7 @@ public class DrawWindow {
         }
     }
 
-    private void close() {
+    public void close() {
         Constants.isWindowOpen = false;
         try {
             ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).removeView(mView);

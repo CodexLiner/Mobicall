@@ -5,22 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import com.mobicall.call.stateManager.Constants;
 
 public class ActionReceiver extends BroadcastReceiver {
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        //Toast.makeText(context,"recieved",Toast.LENGTH_SHORT).show();
-
         boolean action=intent.getBooleanExtra("isLogin" , false);
-
         if(Constants.isLogin){
+            Toast.makeText(context,"Break Started", Toast.LENGTH_SHORT).show();
             performAction1();
             Log.d("TAG", "performAction1: ");
             Intent i = new Intent(context , ForegroundService.class);
@@ -28,7 +25,7 @@ public class ActionReceiver extends BroadcastReceiver {
             context.startService(i);
         }
         else {
-            Log.d("TAG", "performAction: ");
+            Toast.makeText(context,"Break Ended", Toast.LENGTH_SHORT).show();
             performAction2();
             Intent i = new Intent(context , ForegroundService.class);
             i.putExtra("name" , "Take Break");

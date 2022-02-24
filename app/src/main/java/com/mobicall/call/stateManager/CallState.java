@@ -21,6 +21,7 @@ import com.mobicall.call.database.userDatabaseModel;
 import com.mobicall.call.models.contacts;
 import com.mobicall.call.others.staticFunctions;
 import com.mobicall.call.services.DrawWindow;
+import com.mobicall.call.services.callTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,8 +79,24 @@ public class CallState extends BroadcastReceiver {
 //                Constants.isWindowOpen = true;
 
             } else if (phoneState.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-//                callTask callTask = new callTask(Constants.windowContact ,  Constants.indexValue , context);
-//                callTask.execute();
+                String time = staticFunctions.getLastCallTime(context , null);
+                if (time!=null){
+                    if (time.equals("0")){
+                        if (Constants.isWindowOpen){
+                            DrawWindow drawWindow = new DrawWindow(context);
+                            drawWindow.close();
+                            if (Constants.CustomerList!=null){
+                                new Timer().schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        callTask callTask = new callTask(Constants.CustomerList ,  0 , context);
+                                        callTask.execute();
+                                    }
+                                },5000);
+                            }
+                        }
+                    }
+                }
             }
 
         } catch (Exception e) {

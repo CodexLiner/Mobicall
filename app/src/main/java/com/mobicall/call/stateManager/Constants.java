@@ -3,6 +3,7 @@ package com.mobicall.call.stateManager;
 import com.mobicall.call.models.OtherCalls;
 import com.mobicall.call.models.TemplateModel;
 import com.mobicall.call.models.contacts;
+import com.mobicall.call.models.totalCount;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class Constants {
     public static List<TemplateModel> whatsAppTemplates;
     public static List<TemplateModel> EmailTemplates;
     public static List<contacts> CustomerList;
+    public static totalCount TotalCount;
     public static final int STATE_INCOMING_NUMBER = 1;
     public static final int STATE_CALL_START = 2;
     public static final int STATE_CALL_END = 3;
