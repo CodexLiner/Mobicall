@@ -90,7 +90,7 @@
         <receiver android:name=".services.ActionReceiver" />
         <receiver
             android:name=".stateManager.CallState"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>

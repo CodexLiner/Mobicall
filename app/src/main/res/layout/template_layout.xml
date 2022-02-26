@@ -32,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:text="Send Bulk Whatsapp Sms"/>
             <TextView
-
                 android:textColor="@color/grey"
                 android:id="@+id/tcontent"
                 android:layout_width="wrap_content"
@@ -45,7 +44,7 @@
             android:layout_height="70dp"
             android:layout_gravity="end|center"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_baseline_chevron_right_24" />
+            android:src="@drawable/ic_baseline_remove_red_eye_24" />
     </LinearLayout>
 
 

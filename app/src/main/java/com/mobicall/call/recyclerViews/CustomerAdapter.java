@@ -19,7 +19,13 @@ import com.mobicall.call.UI.TemplateList;
 import com.mobicall.call.models.contacts;
 import com.mobicall.call.stateManager.Constants;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.holder> {
     List<contacts> mList;
@@ -42,10 +48,36 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.holder
         if (mList.get(position)!=null){
             holder.customerName.setText(mList.get(position).getContact_name());
             if (mList.get(i).getCall_status()!=null){
-                holder.callStatus.setText(mList.get(i).getCall_status());
+                if (mList.get(i).getCall_status().equalsIgnoreCase("connected")){
+                    if (mList.get(i).getInterested()!=null){
+                        if (mList.get(i).getInterested().equals("1")){
+                            String status = mList.get(i).getCall_status();
+                            holder.callStatus.setText(status);
+                            holder.intrest.setText("interested");
+                        }else if (mList.get(i).getInterested().equals("0")){
+                            String status = mList.get(i).getCall_status();
+                            holder.callStatus.setText(status);
+                            holder.intrest.setTextColor(holder.intrest.getResources().getColor(R.color.design_default_color_error));
+                            holder.intrest.setText("Not interested");
+                        }
+                    }else {
+                        String status = mList.get(i).getCall_status();
+                        holder.callStatus.setText(status);
+                    }
+
+
+                }
             }
             if (mList.get(i).getPhone()!=null){
                 holder.customerNumber.setText(mList.get(i).getPhone());
+            }
+            if (mList.get(i).getUpdated_at()!=null){
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.ENGLISH);
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a", Locale.ENGLISH);
+                LocalDateTime date = LocalDateTime.parse(mList.get(i).getUpdated_at(), inputFormatter);
+                String formattedDate = outputFormatter.format(date);
+                holder.dateTime.setText(formattedDate);
+
             }
         }
         holder.whatsapp.setOnClickListener(new View.OnClickListener() {
@@ -92,12 +124,14 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.holder
     static class holder extends RecyclerView.ViewHolder {
         LinearLayout listLayout;
         ImageView whatsapp ,sms , call;
-        TextView customerName , callStatus , customerNumber;
+        TextView customerName , callStatus , intrest , dateTime ,customerNumber;
         public holder(@NonNull View itemView) {
             super(itemView);
             listLayout = itemView.findViewById(R.id.listLayout);
             customerName = itemView.findViewById(R.id.customerName);
             callStatus = itemView.findViewById(R.id.callStatus);
+            intrest = itemView.findViewById(R.id.intrested);
+            dateTime = itemView.findViewById(R.id.dateTime);
             customerNumber = itemView.findViewById(R.id.customerNumber);
             whatsapp = itemView.findViewById(R.id.whatsapp);
             sms = itemView.findViewById(R.id.sms);

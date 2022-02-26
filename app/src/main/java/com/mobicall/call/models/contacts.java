@@ -15,8 +15,11 @@ public class contacts {
 //            "created_at": "2022-02-06T12:44:11.000000Z",
 //            "updated_at": "2022-02-06T12:45:20.000000Z"
 //    },
-    public String id ,user_id,contact_name , phone , email , interested , description , call_status , talktime , call_recording , created_at , updated_at;
 
+    public contacts() {
+    }
+
+    public String id ,user_id,contact_name , phone , email , interested , description , call_status , talktime , call_recording , created_at , updated_at;
     public contacts(String id, String user_id, String contact_name, String phone, String email, String interested, String description, String call_status, String talktime, String call_recording, String created_at, String updated_at) {
         this.id = id;
         this.user_id = user_id;

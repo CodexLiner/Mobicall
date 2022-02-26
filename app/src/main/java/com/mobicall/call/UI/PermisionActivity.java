@@ -151,7 +151,7 @@ public class PermisionActivity extends AppCompatActivity {
         });
         dialog.findViewById(R.id.closeButton).setOnClickListener((View v)->{
             dialog.dismiss();
-//            editor.putBoolean("auto" , false);
+            editor.putBoolean("auto" , true);
             editor.apply();
         });
     }

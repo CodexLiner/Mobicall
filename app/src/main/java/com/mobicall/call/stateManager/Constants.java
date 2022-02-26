@@ -4,6 +4,7 @@ import com.mobicall.call.models.OtherCalls;
 import com.mobicall.call.models.TemplateModel;
 import com.mobicall.call.models.contacts;
 import com.mobicall.call.models.totalCount;
+import com.mobicall.call.services.DrawWindow;
 
 import java.util.List;
 
@@ -11,9 +12,13 @@ public class Constants {
     public static final String TAG = "Call recorder";
     public static final String FILE_NAME_PATTERN = "^[\\d]{14}_[_\\d]*\\..+$";
     public static List<TemplateModel> whatsAppTemplates;
+    public static DrawWindow drawWindow;
+    public static String first = "0";
     public static List<TemplateModel> EmailTemplates;
     public static List<contacts> CustomerList;
+    public static contacts UserDetails;
     public static totalCount TotalCount;
+    public static String MN;
     public static final int STATE_INCOMING_NUMBER = 1;
     public static final int STATE_CALL_START = 2;
     public static final int STATE_CALL_END = 3;

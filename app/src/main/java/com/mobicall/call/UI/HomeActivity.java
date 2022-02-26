@@ -95,7 +95,7 @@ public class HomeActivity extends AppCompatActivity {
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);;
         startDateString = simpleDateFormat.format(Calendar.getInstance().getTime());
         initialDate = simpleDateFormat.format(Calendar.getInstance().getTime());
-        startService(new Intent(HomeActivity.this , CallState.class));
+//        startService(new Intent(HomeActivity.this , CallState.class));
         // home fragment
 //        HomeFragment fragment=new HomeFragment();
 //        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
@@ -338,7 +338,7 @@ public class HomeActivity extends AppCompatActivity {
                 final Date endTime = sdf.parse(user.getTo());
                 final Date startTime = sdf.parse(user.getFrom());
                 String et , st;
-                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("K:mm: a" , Locale.US);
+                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("K:mm a" , Locale.US);
                 et = simpleDateFormat1.format(endTime);
                 st = simpleDateFormat1.format(startTime);
               runOnUiThread(new Runnable() {
@@ -393,6 +393,7 @@ public class HomeActivity extends AppCompatActivity {
                                         toast.show();
                                     }
                                 });
+
                                 new Timer().schedule(new TimerTask() {
                                     @Override
                                     public void run() {
@@ -411,6 +412,7 @@ public class HomeActivity extends AppCompatActivity {
         DrawWindow.setInWindow(contactList);
         Constants.indexValue = 0;
         Constants.windowContact = contactList;
+        Log.d("TAG", "doInBackground: ");
         callTask callTask = new callTask(contactList, 0 , getApplicationContext());
         callTask.execute();
     }
@@ -472,6 +474,12 @@ public class HomeActivity extends AppCompatActivity {
                         toast.setGravity(Gravity.BOTTOM, 0, 150);
                         toast.setDuration(Toast.LENGTH_SHORT);
                         toast.show();
+                        new Timer().schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                startCallservice(Constants.CustomerList);
+                            }
+                        },1000);
                     }
                 });
             }

@@ -48,7 +48,7 @@ public class splash extends AppCompatActivity {
             getContact();
         }
         Intent intent = new Intent(this , CallState.class);
-        startService(intent);
+//        startService(intent);
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {

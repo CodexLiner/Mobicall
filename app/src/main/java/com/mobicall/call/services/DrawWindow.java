@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ public class DrawWindow {
     public static List<contacts> inWindow;
     TextView callType , callNum , callerNum;
     EditText name , email , desc , mobile ;
+    static String mNumber;
 
     public static List<contacts> getInWindow() {
         return inWindow;
@@ -83,14 +86,38 @@ public class DrawWindow {
             callNum = mView.findViewById(R.id.callNum);
             desc = mView.findViewById(R.id.intDesc);
             // filling field data in form
-            if (inWindow !=null && Constants.indexValue - 1 < inWindow.size()  && inWindow.get(Constants.indexValue - 1) !=null){
-                name.setText(inWindow.get(Constants.indexValue-1).getContact_name());
-                email.setText(inWindow.get(Constants.indexValue-1).getEmail());
-                mobile.setText(inWindow.get(Constants.indexValue-1).getPhone());
-                callerNum.setText(inWindow.get(Constants.indexValue-1).getPhone());
-                callNum.setText(inWindow.get(Constants.indexValue-1).getContact_name());
+            staticFunctions.getContactinfo(mNumber ,null, context);
+            contacts u = null;
+            if (Constants.MN !=null && Constants.MN.startsWith("+")){
+                Constants.MN = Constants.MN.substring(3);
             }
-
+            if (Constants.CustomerList!=null){
+                for (int i = 0; i < Constants.CustomerList.size(); i++) {
+                    if (Constants.CustomerList.get(i).getPhone()!=null){
+                        if (Constants.CustomerList.get(i).getPhone().equals(Constants.MN)){
+                            u = Constants.CustomerList.get(i);
+                        }
+                    }
+                }
+            }
+            if (u!=null){
+                name.setText(u.getContact_name());
+                email.setText(u.getEmail());
+                mobile.setText(u.getPhone());
+                callerNum.setText(u.getPhone());
+                callNum.setText(u.getContact_name());
+            }else if (Constants.UserDetails!=null){
+                u = Constants.UserDetails;
+                name.setText(u.getContact_name());
+                email.setText(u.getEmail());
+                mobile.setText(u.getPhone());
+                callerNum.setText(u.getPhone());
+                callNum.setText(u.getContact_name());
+            }else {
+                Log.d(TAG, "DrawWindow: all null "+Constants.MN);
+                callerNum.setText(Constants.MN);
+                mobile.setText(Constants.MN);
+            }
 //            RelativeLayout layout = mView.findViewById(R.id.layoutWindow);
             mView.setOnTouchListener(new View.OnTouchListener() {
                   private int initialX;
@@ -128,11 +155,11 @@ public class DrawWindow {
                 public void onClick(View v) {
                     if (Constants.byCallTask && inWindow!=null){
                         String time = staticFunctions.getLastCallTime(context ,null);
-                        UpdaterClass updaterClass = new UpdaterClass(inWindow.get(Constants.indexValue- 1).getId() ,
+                        UpdaterClass updaterClass = new UpdaterClass(Constants.UserDetails.getId() ,
                                 null , null, "connected" , time , context,
-                                inWindow.get(Constants.indexValue- 1).getContact_name()
-                                ,inWindow.get(Constants.indexValue- 1).getPhone()
-                                , inWindow.get(Constants.indexValue- 1).getEmail());
+                                 Constants.UserDetails.getContact_name()
+                                ,Constants.UserDetails.getPhone()
+                                , Constants.UserDetails.getEmail());
                         updaterClass.execute();
                         new Timer().schedule(new TimerTask() {
                             @Override
@@ -148,14 +175,11 @@ public class DrawWindow {
                     }else {
                         String time = staticFunctions.getLastCallTime(context , null);
                         String callStatus ="connected";
-                        if (time.equals("0")){
-                            callStatus ="not connected";
-                        }
-                        UpdaterClass updaterClass = new UpdaterClass(inWindow.get(Constants.indexValue- 1).getId() ,
+                        UpdaterClass updaterClass = new UpdaterClass(Constants.UserDetails.getId() ,
                                 desc.getText().toString().trim() ,
                                 "0", callStatus , time, context ,
                                 name.getText().toString()
-                                ,Constants.otherCalls.getNumber()
+                                ,Constants.UserDetails.getPhone()
                                 ,email.getText().toString());
                         updaterClass.execute();
                     }
@@ -195,19 +219,16 @@ public class DrawWindow {
                     if (Constants.byCallTask && inWindow!=null){
                         String time = staticFunctions.getLastCallTime(context , null);
                         String callStatus ="connected";
-                        if (time.equals("0")){
-                            callStatus ="not connected";
-                        }
                         String id = null;
-                        if (inWindow.get(Constants.indexValue- 1) !=null && inWindow.get(Constants.indexValue- 1).getId()!=null){
-                            id = inWindow.get(Constants.indexValue- 1).getId();
+                        if (inWindow.get(Constants.indexValue- 1) !=null && Constants.UserDetails.getId()!=null){
+                            id = Constants.UserDetails.getId();
                         }
                         UpdaterClass updaterClass = new UpdaterClass(id ,
                                 desc.getText().toString().trim() ,
                                 "1", callStatus , time, context ,
-                                inWindow.get(Constants.indexValue- 1).getContact_name()
-                                ,inWindow.get(Constants.indexValue- 1).getPhone()
-                                , inWindow.get(Constants.indexValue- 1).getEmail());
+                                Constants.UserDetails.getContact_name()
+                                ,Constants.UserDetails.getPhone()
+                                , Constants.UserDetails.getEmail());
                         updaterClass.execute();
                         new Timer().schedule(new TimerTask() {
                             @Override
@@ -220,14 +241,11 @@ public class DrawWindow {
                         String id = null;
                         String time = staticFunctions.getLastCallTime(context , null);
                         String callStatus ="connected";
-                        if (time.equals("0")){
-                            callStatus ="not connected";
-                        }
                         UpdaterClass updaterClass = new UpdaterClass(id ,
                                 desc.getText().toString().trim() ,
                                 "1", callStatus , time, context ,
                                 name.getText().toString()
-                                ,Constants.otherCalls.getNumber()
+                                ,Constants.UserDetails.getPhone()
                                 ,email.getText().toString());
                         updaterClass.execute();
                     }
@@ -239,7 +257,9 @@ public class DrawWindow {
     }
 
     public void close() {
+        Constants.UserDetails = null;
         Constants.isWindowOpen = false;
+        Log.d(TAG, "callstate: ");
         try {
             ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).removeView(mView);
             mView.invalidate();
@@ -248,7 +268,7 @@ public class DrawWindow {
            }
 
         } catch (Exception e) {
-            Log.d("Error2",e.toString());
+            Log.d("callstate",e.toString());
         }
     }
     public void openWith(){
@@ -308,8 +328,63 @@ public class DrawWindow {
 
     public void open(String cType , String cNum) {
     try {
+        Constants.MN = cNum;
+        staticFunctions.getContactinfo(mNumber ,null, context);
+        contacts u = null;
+        if (Constants.MN !=null && Constants.MN.startsWith("+")){
+            Constants.MN = Constants.MN.substring(3);
+        }
+        if (Constants.CustomerList!=null){
+            for (int i = 0; i < Constants.CustomerList.size(); i++) {
+                if (Constants.CustomerList.get(i).getPhone()!=null){
+                    if (Constants.CustomerList.get(i).getPhone().equals(cNum)){
+                        u = Constants.CustomerList.get(i);
+                        Constants.UserDetails = u;
+                    }
+                }
+            }
+        }
+        if (u!=null){
+            Log.d(TAG, "open: is 1");
+            name.setText(u.getContact_name());
+            email.setText(u.getEmail());
+            mobile.setText(u.getPhone());
+            callerNum.setText(u.getPhone());
+            callNum.setText(u.getContact_name());
+        }
+        else if (Constants.UserDetails!=null){
+            Log.d(TAG, "open: is 2");
+
+            u = Constants.UserDetails;
+            name.setText(u.getContact_name());
+            email.setText(u.getEmail());
+            mobile.setText(u.getPhone());
+            callerNum.setText(u.getPhone());
+            callNum.setText(u.getContact_name());
+        }else {
+            Constants.UserDetails = new contacts();
+            Constants.UserDetails.setEmail("");
+            Constants.UserDetails.setContact_name("");
+            Constants.UserDetails.setId("");
+            Constants.UserDetails.setPhone(cNum);
+
+            Log.d(TAG, "open: is 3");
+            name.setText("");
+            email.setText("");
+            callNum.setText("");
+            Log.d(TAG, "DrawWindow: all null "+Constants.MN);
+            callerNum.setText(Constants.MN);
+            mobile.setText(Constants.MN);
+        }
+        mNumber = cNum;
+        Constants.MN = cNum;
         TextView callType , callNum;
         callNum = mView.findViewById(R.id.callNum);
+        if (u!=null && u.getContact_name()!=null){
+            callNum.setText(u.getContact_name());
+        }else {
+            callNum.setText(cNum);
+        }
         callType = mView.findViewById(R.id.callType);
         // check if the view is already
         // inflated or present in the window
