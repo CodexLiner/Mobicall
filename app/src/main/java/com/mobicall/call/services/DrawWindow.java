@@ -76,7 +76,8 @@ public class DrawWindow {
             Log.d("TAG", "DrawWindow: "+width+" "+height);
 
             mParams.verticalMargin = -0.3f;
-            mParams.width = width -10;
+            mParams.width = width;
+            mParams.height = height;
             mParams.gravity = Gravity.CENTER_HORIZONTAL;
             mWindowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
             name = mView.findViewById(R.id.intName);
@@ -166,6 +167,10 @@ public class DrawWindow {
                             public void run() {
                                 if (Constants.byCallTask){
                                     Constants.byCallTask = false;
+                                    if (Constants.indexValue - 1 < Constants.windowContact.size()){
+                                        Constants.windowContact.get(Constants.indexValue -1).setCall_status("connected");
+                                        Constants.CustomerList = Constants.windowContact;
+                                    }
                                     callTask callTask = new callTask(Constants.windowContact ,  Constants.indexValue , context);
                                     callTask.execute();
                                 }
@@ -189,6 +194,13 @@ public class DrawWindow {
             mView.findViewById(R.id.closeButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (Constants.byCallTask) {
+                        if (Constants.indexValue - 1 < Constants.windowContact.size()) {
+                            Log.d(TAG, "personal: " + Constants.windowContact.get(Constants.indexValue - 1).getCall_status());
+                            Constants.windowContact.get(Constants.indexValue - 1).setCall_status("connected");
+                            Constants.CustomerList = Constants.windowContact;
+                        }
+                    }
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -233,6 +245,10 @@ public class DrawWindow {
                         new Timer().schedule(new TimerTask() {
                             @Override
                             public void run() {
+                                if (Constants.indexValue - 1 < Constants.windowContact.size()){
+                                    Constants.windowContact.get(Constants.indexValue -1).setCall_status("connected");
+                                    Constants.CustomerList = Constants.windowContact;
+                                }
                                 callTask callTask = new callTask(Constants.windowContact ,  Constants.indexValue , context);
                                 callTask.execute();
                             }

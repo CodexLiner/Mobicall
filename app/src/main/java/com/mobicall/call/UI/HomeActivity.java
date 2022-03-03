@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
@@ -24,12 +23,9 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.mobicall.call.R;
-import com.mobicall.call.UI.Fragments.CustomerFragment;
-import com.mobicall.call.UI.Fragments.HomeFragment;
-import com.mobicall.call.UI.Fragments.MenuFragment;
-import com.mobicall.call.database.callHistory;
+import com.mobicall.call.database.UserBreakHelper;
+import com.mobicall.call.database.bankBreakModel;
 import com.mobicall.call.database.userDatabaseHelper;
 import com.mobicall.call.database.userDatabaseModel;
 import com.mobicall.call.databinding.ActivityHomeBinding;
@@ -40,7 +36,6 @@ import com.mobicall.call.services.DrawWindow;
 import com.mobicall.call.services.ForegroundService;
 import com.mobicall.call.services.PermisionClass;
 import com.mobicall.call.services.callTask;
-import com.mobicall.call.stateManager.CallState;
 import com.mobicall.call.stateManager.Constants;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.gson.Gson;
@@ -89,6 +84,8 @@ public class HomeActivity extends AppCompatActivity {
         updateLabel();
         verifyUser(this);
         getTotalCounts(null , null);
+        checkExpiry();
+        updateUserDetails(null);
         staticFunctions.compare(this);
 
         setCurrentUser(getApplicationContext());
@@ -178,6 +175,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 swiping = true;
+                updateUserDetails(getApplicationContext());
                 getTotalCounts(null , null);
             }
         });
@@ -255,6 +253,24 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(0,0);
         });
+        UserBreakHelper userBreakHelper = new UserBreakHelper(this);
+        bankBreakModel model = userBreakHelper.getStatus(1);
+        binding.toggle.setChecked(model != null && model.getSTATUS().equals("start"));
+        Constants.isLogin = binding.toggle.isChecked();
+        Log.d("TAG", "COLUMN_ID: "+Constants.isLogin);
+        binding.toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContact();
+                if (binding.toggle.isChecked()){
+                    Toast.makeText(HomeActivity.this, "Auto Calling Enabled", Toast.LENGTH_SHORT).show();
+                    userBreakHelper.addBreakStatus(1 , "start");
+                }else {
+                    Toast.makeText(HomeActivity.this, "Auto Calling Disabled", Toast.LENGTH_SHORT).show();
+                    userBreakHelper.addBreakStatus(1 , "end");
+                }
+            }
+        });
         if (Constants.TotalCount!=null){
             if (swiping){
                 swiping= false;
@@ -269,10 +285,66 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    public void updateUserDetails(Context context) {
+        Log.d("TAG", "updateUserDetails: ");
+        UserBreakHelper userBreakHelper = new UserBreakHelper(getApplicationContext());
+        bankBreakModel model = userBreakHelper.getStatus(1);
+        if (model!=null&& model.getSTATUS().equals("start")){
+            Log.d("TAG", "updateUserDetails: if");
+           binding.toggle.setChecked(true);
+        }else {
+            binding.toggle.setChecked(false);
+
+        }
+
+    }
+    private void checkExpiry() {
+        Gson gson = new Gson();
+        userDatabaseHelper db = new userDatabaseHelper(getApplicationContext());
+        userDatabaseModel model = db.getUser(0);
+        if (model.getAuth()==null){
+            return;
+        }
+        Request request = new Request.Builder().url(Constants.baseUrlbackend +"check_expiry").addHeader("authorization" , "Bearer "+model.getAuth()).get().build();
+        new OkHttpClient()
+                .newCall(request)
+                .enqueue(
+                        new Callback() {
+                            @Override
+                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                Log.d("TAG", "onFailure: a" + e);
+                            }
+
+                            @Override
+                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            if (!(response.code() ==200)){
+                                                logOut();
+                                                Toast.makeText(HomeActivity.this, "Plan Expired", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+
+                            }
+                        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
         binding.bottomNav.setSelectedItemId(R.id.homeMenu);
+    }
+    public  void checkStatus(){
+        UserBreakHelper userBreakHelper = new UserBreakHelper(this);
+        bankBreakModel model = userBreakHelper.getStatus(1);
+        if (model!=null && model.getSTATUS().equals("start")){
+            binding.toggle.setChecked(true);
+        }
     }
 
     private void getTotalCounts(String start , String end) {
@@ -401,7 +473,7 @@ public class HomeActivity extends AppCompatActivity {
                                     }
                                 },1000);
 
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -419,9 +491,10 @@ public class HomeActivity extends AppCompatActivity {
     private void logOut() {
         userDatabaseHelper db = new userDatabaseHelper(getApplicationContext());
         startActivity(new Intent(getApplicationContext() , MainActivity.class));
-        finishAffinity();
         db.delete(0);
+        finish();
     }
+
 
     private void updateLabel(){
         String myFormat="dd MMM yy";
@@ -477,7 +550,14 @@ public class HomeActivity extends AppCompatActivity {
                         new Timer().schedule(new TimerTask() {
                             @Override
                             public void run() {
-                                startCallservice(Constants.CustomerList);
+                                if (Constants.windowContact!=null){
+                                    Log.d("TAG", "personal: if");
+                                    startCallservice(Constants.windowContact);
+                                }else {
+                                    Log.d("TAG", "personal: else");
+                                    startCallservice(Constants.CustomerList);
+                                }
+
                             }
                         },1000);
                     }

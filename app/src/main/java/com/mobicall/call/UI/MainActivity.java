@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.mobicall.call.R;
+import com.mobicall.call.database.UserBreakHelper;
+import com.mobicall.call.database.bankBreakModel;
 import com.mobicall.call.database.userDatabaseHelper;
 import com.mobicall.call.databinding.ActivityMainBinding;
 import com.mobicall.call.models.CompanyModel;
@@ -121,6 +123,8 @@ ActivityMainBinding binding;
                       new Runnable() {
                         @Override
                         public void run() {
+                            UserBreakHelper userBreakHelper = new UserBreakHelper(MainActivity.this);
+                            userBreakHelper.addBreakStatus(1 , "start");
                           binding.loginButton.setEnabled(true);
                           Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT)
                               .show();

@@ -4,8 +4,9 @@
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
     android:layout_marginBottom="5dp"
-    android:layout_height="75dp">
+    android:layout_height="wrap_content">
     <LinearLayout
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:id="@+id/listLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,21 +23,27 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:orientation="vertical">
                <LinearLayout
+                   android:layout_gravity="start"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:orientation="horizontal">
                    <TextView
+                       android:textAllCaps="true"
+                       android:textSize="11sp"
                        android:id="@+id/callStatus"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="Not Connected"/>
                    <TextView
+                       android:textSize="11sp"
+                       android:gravity="start"
+                       android:layout_weight="1"
                        android:textAllCaps="true"
                        android:layout_gravity="center"
-                       android:textSize="10sp"
                        android:textColor="#43A047"
                        android:layout_marginStart="5dp"
                        android:id="@+id/intrested"
@@ -46,7 +53,7 @@
                 <TextView
                     android:layout_marginTop="2dp"
                     android:id="@+id/customerName"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:fontFamily="@font/poppins_medium"
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
@@ -72,7 +79,6 @@
                 <TextView
                     android:textAllCaps="true"
                     android:id="@+id/dateTime"
-                    android:layout_marginTop="2dp"
                     android:textSize="10sp"
                     android:gravity="end"
                     android:layout_gravity="center"
@@ -86,9 +92,10 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:orientation="horizontal">
                     <ImageView
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:id="@+id/whatsapp"
                         android:layout_weight="1"
                         android:layout_marginTop="5dp"
@@ -96,8 +103,10 @@
                         android:layout_height="30dp"
                         android:src="@drawable/whatsapp2"
                         android:layout_gravity="center|end"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="10dp"/>
                     <ImageView
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:id="@+id/sms"
                         android:layout_weight="1"
                         android:layout_marginTop="5dp"
@@ -105,8 +114,10 @@
                         android:layout_height="30dp"
                         android:src="@drawable/blog"
                         android:layout_gravity="center|end"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="10dp"/>
                     <ImageView
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:id="@+id/call"
                         android:layout_weight="1"
                         android:layout_marginTop="5dp"
@@ -114,6 +125,7 @@
                         android:layout_height="30dp"
                         android:src="@drawable/phone_call"
                         android:layout_gravity="center|end"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="10dp"/>
                 </LinearLayout>
             </LinearLayout>

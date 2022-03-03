@@ -19,13 +19,17 @@ import com.mobicall.call.UI.TemplateList;
 import com.mobicall.call.models.contacts;
 import com.mobicall.call.stateManager.Constants;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.holder> {
     List<contacts> mList;
@@ -46,36 +50,57 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.holder
         int i = position;
 //        Log.d("TAG", "onBindViewHolder: "+mList.toString());
         if (mList.get(position)!=null){
-            holder.customerName.setText(mList.get(position).getContact_name());
+            String name =mList.get(position).getContact_name();
+            if (name !=null && name.length()>20){
+                name = name.substring(0 , 19)+"...";
+            }
+            holder.customerName.setText(name);
             if (mList.get(i).getCall_status()!=null){
                 if (mList.get(i).getCall_status().equalsIgnoreCase("connected")){
                     if (mList.get(i).getInterested()!=null){
                         if (mList.get(i).getInterested().equals("1")){
                             String status = mList.get(i).getCall_status();
                             holder.callStatus.setText(status);
-                            holder.intrest.setText("interested");
+                            holder.intrest.setText("(interested)");
                         }else if (mList.get(i).getInterested().equals("0")){
                             String status = mList.get(i).getCall_status();
                             holder.callStatus.setText(status);
                             holder.intrest.setTextColor(holder.intrest.getResources().getColor(R.color.design_default_color_error));
-                            holder.intrest.setText("Not interested");
+                            holder.intrest.setText("(Not interested)");
                         }
                     }else {
                         String status = mList.get(i).getCall_status();
                         holder.callStatus.setText(status);
                     }
-
-
+                }else if (mList.get(i).getCall_status().equalsIgnoreCase("not connected")){
+                   // Log.d("TAG", "onBindViewHolder: "+mList.get(i).getInterested()+"  status "+mList.get(i).getCall_status()+" mobile "+mList.get(i).getPhone());
+                    if (mList.get(i).getInterested()!=null) {
+                        if (mList.get(i).getInterested().equals("1")) {
+                            String status = mList.get(i).getCall_status();
+                            holder.callStatus.setText(status);
+                            holder.intrest.setText("(interested)");
+                        } else if (mList.get(i).getInterested().equals("0")) {
+                            String status = mList.get(i).getCall_status();
+                            holder.callStatus.setText(status);
+                            holder.intrest.setTextColor(holder.intrest.getResources().getColor(R.color.design_default_color_error));
+                            holder.intrest.setText("(Not interested)");
+                        }
+                    }
                 }
             }
             if (mList.get(i).getPhone()!=null){
                 holder.customerNumber.setText(mList.get(i).getPhone());
             }
             if (mList.get(i).getUpdated_at()!=null){
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.ENGLISH);
-                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a", Locale.ENGLISH);
-                LocalDateTime date = LocalDateTime.parse(mList.get(i).getUpdated_at(), inputFormatter);
-                String formattedDate = outputFormatter.format(date);
+                DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+                utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                Date date = null;
+                try {
+                    date = utcFormat.parse(mList.get(i).getUpdated_at());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String formattedDate = new SimpleDateFormat("dd MMM yyyy hh:mm a").format(date);
                 holder.dateTime.setText(formattedDate);
 
             }

@@ -84,6 +84,7 @@ public class CustomerActivity extends AppCompatActivity {
     static String startDateString = null;
     static String endDateString = null;
     static String initialDate = null;
+    boolean isClear = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,13 +95,14 @@ public class CustomerActivity extends AppCompatActivity {
         updateLabel();
         userDatabaseHelper db = new userDatabaseHelper(this);
         userDatabaseModel model = db.getUser(0);
-        if (model!=null){
-             getContact();
-        }
         binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getContact();
+                if (!isClear){
+                    getContact();
+                }else {
+                    binding.swipe.setRefreshing(false);
+                }
             }
         });
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);;
@@ -109,6 +111,12 @@ public class CustomerActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this , LinearLayoutManager.VERTICAL , false);
         binding.customerRecycler.setLayoutManager(layoutManager);
+        if (model!=null && Constants.CustomerList==null){
+            getContact();
+        }else {
+            adapter = new CustomerAdapter(Constants.CustomerList);
+            binding.customerRecycler.setAdapter(adapter);
+        }
         if (Constants.CustomerList!=null){
             binding.totalCustomer.setText("Total - "+Constants.CustomerList.size());
             binding.totalCustomer.setVisibility(View.VISIBLE);
@@ -132,8 +140,9 @@ public class CustomerActivity extends AppCompatActivity {
                 int height = size.y;
                 Dialog dialog = new Dialog(CustomerActivity.this);
                 WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-                layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                layoutParams.width = width - 30;
+                layoutParams.height = height;
+                layoutParams.width = width;
+                dialog.getWindow().setAttributes(layoutParams);
                 dialog.setContentView(R.layout.dialog_layout);
 //                dialog.getWindow().setAttributes(layoutParams);
                 // variables
@@ -156,6 +165,64 @@ public class CustomerActivity extends AppCompatActivity {
                 list.add(new pair(sortName, false));
                 list.add(new pair(sortDateDown, false));
                 list.add(new pair(sortDateUp, false));
+//                date filters
+                TextView startDateDialog , endDateDialog ;
+                startDateDialog =   dialog.findViewById(R.id.StartDate);
+                endDateDialog = dialog.findViewById(R.id.EndDate);
+                final String[] startDateLocal = {null};
+                final String[] endDateLocal = {null};
+
+                DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        binding.startLayout.setEnabled(true);
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH,month);
+                        myCalendar.set(Calendar.DAY_OF_MONTH,day);
+                        String myFormat="dd MMM yy";
+                        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
+                        startDateDialog.setText(dateFormat.format(myCalendar.getTime()));
+                        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);
+                        startDateString = newFormat.format(myCalendar.getTime());
+                        startDateLocal[0] = newFormat.format(myCalendar.getTime());
+                        startDatePicker(initialDate , endDateString);
+                    }
+                };
+                DatePickerDialog.OnDateSetListener endDate = new DatePickerDialog.OnDateSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        binding.EndDateLayout.setEnabled(true);
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH,month);
+                        myCalendar.set(Calendar.DAY_OF_MONTH,day);
+                        String myFormat="dd MMM yy";
+                        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
+                        endDateDialog.setText(dateFormat.format(myCalendar.getTime()));
+                        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);
+                        endDateString = newFormat.format(myCalendar.getTime());
+                        endDateLocal[0] = newFormat.format(myCalendar.getTime());
+                        startDatePicker(startDateLocal[0] , endDateLocal[0]);
+                        Log.d("TAG", "onDateSet: "+endDateString+" "+startDateString);
+                    }
+                };
+                dialog.findViewById(R.id.startLayout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        binding.startLayout.setEnabled(false);
+                        new DatePickerDialog(CustomerActivity.this,startDate,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        binding.startLayout.setEnabled(true);
+                    }
+                });
+                dialog.findViewById(R.id.EndDateLayout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        binding.EndDateLayout.setEnabled(false);
+                        new DatePickerDialog(CustomerActivity.this,endDate,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        binding.EndDateLayout.setEnabled(true);
+                    }
+                });
                 // sortFilter
                 sortName.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -254,6 +321,7 @@ public class CustomerActivity extends AppCompatActivity {
                 });
                 done.setOnClickListener((View x)->{
                     dialog.dismiss();
+                    isClear = true;
                     startFilter(sortFilter);
                     for (String s : sortFilter) {
                         Log.d("TAG", "onClick: "+s);
@@ -265,6 +333,7 @@ public class CustomerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (Constants.CustomerList!=null){
+                    isClear = false;
                     binding.clearFilter.setVisibility(View.INVISIBLE);
                     adapter = new CustomerAdapter(Constants.CustomerList);
                     binding.customerRecycler.setAdapter(adapter);
@@ -366,6 +435,7 @@ public class CustomerActivity extends AppCompatActivity {
                     Log.d(TAG, "startDatePicker: on"+obj2+" "+end);
                 }
             }
+            Constants.CustomerList = mList;
             binding.clearFilter.setVisibility(View.VISIBLE);
             adapter = new CustomerAdapter(mList);
             binding.customerRecycler.setAdapter(adapter);
@@ -413,6 +483,7 @@ public class CustomerActivity extends AppCompatActivity {
            ArrayList<contacts> adapterLister = new ArrayList<>();
             for (contacts c: newList) {
                 if (!adapterLister.contains(c)){
+                    isClear = true;
                     binding.clearFilter.setVisibility(View.VISIBLE);
                     adapterLister.add(c);
                 }
@@ -421,6 +492,8 @@ public class CustomerActivity extends AppCompatActivity {
            runOnUiThread(new Runnable() {
                @Override
                public void run() {
+                   binding.totalCustomer.setText("Total - "+Constants.CustomerList.size());
+                   binding.totalCustomer.setVisibility(View.VISIBLE);
                    binding.customerRecycler.setAdapter(adapter);
                }
            });
@@ -442,6 +515,7 @@ public class CustomerActivity extends AppCompatActivity {
     }
     private void getContact(){
         if (isFilter){
+            binding.swipe.setRefreshing(false);
             return;
         }
         Gson gson = new Gson();
@@ -470,6 +544,7 @@ public class CustomerActivity extends AppCompatActivity {
                       Type type = new TypeToken<List<contacts>>(){}.getType();
                       List<contacts> contactList = gson.fromJson(jsonResponse.optString("contacts").toString(), type);
                       Constants.CustomerList = contactList;
+                      Constants.CustomerList.sort(new SortByDate2());
                       adapter = new CustomerAdapter(contactList);
                      runOnUiThread(new Runnable() {
                          @Override

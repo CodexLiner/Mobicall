@@ -55,13 +55,18 @@
             android:orientation="horizontal"
             android:layout_height="wrap_content">
             <LinearLayout
+
                 android:layout_marginTop="0dp"
                 android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:layout_marginEnd="30dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
@@ -95,23 +100,23 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginEnd="20dp"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|end"
                     android:gravity="center|end"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/whatsapp"
-                        android:layout_weight="1"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/whatsapp2"/>
+                        android:layout_weight="1"
+                        android:src="@drawable/whatsapp2" />
                     <ImageView
                         android:id="@+id/sms"
-                        android:layout_weight="1"
-                        android:layout_width="30dp"
+                        android:layout_width="26dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/chat"/>
+                        android:layout_weight="1"
+                        android:src="@drawable/chat" />
                     <ImageView
                         android:id="@+id/email"
                         android:padding="2dp"
@@ -122,13 +127,27 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="5dp"
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:elevation="10dp"
+            android:background="@drawable/shape_10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:id="@+id/description"
+                android:maxLength="20"
+                android:textAllCaps="true"
+                android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-            </LinearLayout>
-
+                android:text="No Description"/>
 
         </LinearLayout>
         <LinearLayout

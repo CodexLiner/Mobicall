@@ -15,6 +15,8 @@ import com.mobicall.call.database.userDatabaseModel;
 import com.mobicall.call.models.TemplateModel;
 import com.mobicall.call.models.contacts;
 import com.mobicall.call.recyclerViews.CustomerAdapter;
+import com.mobicall.call.sort.SortByDate;
+import com.mobicall.call.sort.SortByDate2;
 import com.mobicall.call.stateManager.CallState;
 import com.mobicall.call.stateManager.Constants;
 
@@ -150,6 +152,7 @@ public class splash extends AppCompatActivity {
                                     Type type = new TypeToken<List<contacts>>(){}.getType();
                                     List<contacts> contactList = gson.fromJson(jsonResponse.optString("contacts").toString(), type);
                                     Constants.CustomerList = contactList;
+                                    Constants.CustomerList.sort(new SortByDate2());
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();

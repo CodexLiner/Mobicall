@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.mobicall.call.R;
@@ -26,10 +27,14 @@ public class CustomerDetailsActivity extends AppCompatActivity {
         binding = ActivityCustomerDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (Constants.CallHistory!=null && Constants.CallHistory.getPhone() !=null){
+            if (Constants.CallHistory.getDescription()!=null){
+                binding.description.setText(Constants.CallHistory.getDescription());
+            }
             binding.customerEmail.setText(Constants.CallHistory.getEmail());
             binding.customerName.setText(Constants.CallHistory.getContact_name());
             binding.customerMobile.setText(Constants.CallHistory.getPhone());
-            List<CallHistory> list = callHistory.getLogsByNumber(this , new String[]{ "+91"+Constants.CallHistory.getPhone() });
+            Log.d("TAG", "getLogsByNumber: added");
+            List<CallHistory> list = callHistory.getLogsByNumber(this , new String[]{Constants.CallHistory.getPhone() });
             binding.callHistoryRec.setLayoutManager(new LinearLayoutManager(this , LinearLayoutManager.VERTICAL , false));
             adapter = new callHistoryAdapter(list);
             binding.callHistoryRec.setAdapter(adapter);

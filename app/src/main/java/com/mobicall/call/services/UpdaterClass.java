@@ -56,6 +56,7 @@ public class UpdaterClass extends AsyncTask<Void , Void , Void> {
             map.put("call_status" , call_status);
             map.put("talktime" , talktime);
             map.put("call_recording" , null);
+            map.put("phone" , number);
         }else {
             map.put("call_status" , call_status.toString().trim());
         }

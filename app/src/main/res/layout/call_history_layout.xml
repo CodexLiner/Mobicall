@@ -53,7 +53,8 @@
             android:orientation="horizontal"
             android:background="@drawable/shape_10dp">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
@@ -74,10 +75,10 @@
                     android:text="incoming" />
             </LinearLayout>
             <LinearLayout
-               android:layout_marginTop="5dp"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:gravity="end"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1.5"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
@@ -91,7 +92,6 @@
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/callDuration"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.44s" />
@@ -100,9 +100,8 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_weight="1.5"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <ImageView

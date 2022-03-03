@@ -2,6 +2,7 @@ package com.mobicall.call.UI;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -37,6 +39,10 @@ public class PermisionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         sharedPreferences = getSharedPreferences("permission" , MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        if (sharedPreferences.getBoolean("pm",false)){
+            Log.d(TAG, "onperms: ");
+            overlayPermission();
+        }
         if (sharedPreferences!=null){
             if (sharedPreferences.contains("perms")){
                 if (sharedPreferences.getBoolean("perms", false)){
@@ -58,6 +64,8 @@ public class PermisionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    editor.putBoolean("pm" , true);
+                    editor.commit();
                     checkPermission();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -67,8 +75,8 @@ public class PermisionActivity extends AppCompatActivity {
         });
     }
 
-    private boolean overlayPermision() {
-        boolean isTrue = false;
+    private void overlayPermission() {
+        Log.d(TAG, "overlayPermission: ss");
         AlertDialog.Builder builder = new AlertDialog.Builder(PermisionActivity.this);
         builder.setTitle("Overlay Permission Required ");
         builder.setMessage("to turn on click okay to open settings and enable overlay permission");
@@ -77,6 +85,7 @@ public class PermisionActivity extends AppCompatActivity {
             builder.setNeutralButton("DISMISS", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
                 }
             });
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -90,45 +99,46 @@ public class PermisionActivity extends AppCompatActivity {
             alertDialog.show();
 
         }else {
-            isTrue = true;
-            STATUS = 2;
-            editor.putBoolean("overlay" , true);
-            editor.apply();
+            Log.d(TAG, "overlayPermission: dd");
+              if (sharedPreferences.contains("auto") && sharedPreferences.getBoolean("auto", false)){
+                  startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                  overridePendingTransition(0,0);
+                  finishAffinity();
+              }else {
+                  enableAuto(getApplicationContext());
+            }
         }
-        return isTrue;
     }
-
     @Override
     protected void onRestart() {
-        if (STATUS == 2){
-            overlayPermision();
-        }
         super.onRestart();
+        try {
+            checkPermission();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-
     private void checkPermission() throws InterruptedException {
         if (PermisionClass.hasPermision(PermisionActivity.this , PermisionClass.permisions)){
             STATUS = 1;
             editor.putBoolean("perms" , true);
-            editor.apply();
-            overlayPermision();
+            editor.commit();
+            overlayPermission();
         }else if (!PermisionClass.hasPermision(PermisionActivity.this , PermisionClass.permisions)){
                 ActivityCompat.requestPermissions(PermisionActivity.this, PermisionClass.permisions, 0);
-                STATUS = 1;
-                editor.putBoolean("perms" , true);
-                editor.apply();
         }
-        Thread.sleep(1000);
-        if (overlayPermision()){
-            if (!sharedPreferences.getBoolean("auto" , false)){
-                enableAuto(getApplicationContext());
-            }else {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                overridePendingTransition(0,0);
-                finishAffinity();
-            }
-        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED && requestCode == 0){
+            STATUS = 1;
+            editor.putBoolean("perms" , true);
+            editor.commit();
+            overlayPermission();
+        }
     }
 
     private void enableAuto(Context context) {
@@ -153,6 +163,9 @@ public class PermisionActivity extends AppCompatActivity {
             dialog.dismiss();
             editor.putBoolean("auto" , true);
             editor.apply();
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            overridePendingTransition(0,0);
+            finishAffinity();
         });
     }
 

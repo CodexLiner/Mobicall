@@ -1,5 +1,6 @@
 package com.mobicall.call.services;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,6 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -18,12 +22,9 @@ import com.mobicall.call.stateManager.CallState;
 import com.mobicall.call.stateManager.Constants;
 
 public class ForegroundService extends Service {
-    String s = "Take Break";
     public ForegroundService() {
     }
-    public ForegroundService(String s) {
-        this.s = s;
-    }
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,7 +48,7 @@ public class ForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     // for android version >=O we need to create
@@ -67,9 +68,6 @@ public class ForegroundService extends Service {
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         assert manager != null;
         manager.createNotificationChannel(chan);
-        if (!Constants.isLogin){
-            Constants.NOTIFICATION = "End Break";
-        }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         Notification notification = notificationBuilder.setOngoing(true)
                 .setContentTitle("Mobicall is Active")
@@ -88,5 +86,23 @@ public class ForegroundService extends Service {
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .build();
         startForeground(2, notification);
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        try {
+            Intent i = new Intent(this , ForegroundService.class);
+            startService(i);
+        }catch (Exception e){
+            Log.d("TAG", "onTaskRemoved: "+e);
+        }
+        Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
+        restartServiceTask.setPackage(getPackageName());
+        PendingIntent restartPendingIntent =PendingIntent.getService(getApplicationContext(), 1,restartServiceTask, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager myAlarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        myAlarmService.set(
+                AlarmManager.ELAPSED_REALTIME,
+                SystemClock.elapsedRealtime() + 1000,
+                restartPendingIntent);
     }
 }

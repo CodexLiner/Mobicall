@@ -37,17 +37,18 @@
                         android:layout_marginStart="10dp"
                         android:fontFamily="sans-serif"
                         android:textSize="23sp"/>
+
                     <ImageView
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:id="@+id/logOut"
-                        android:padding="5dp"
-                        android:elevation="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_arasko_power"
-                        android:layout_gravity="center|end"
-                        android:layout_marginEnd="10dp"
-                        app:tint="@color/white" />
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:id="@+id/logOut"
+                            android:padding="5dp"
+                            android:elevation="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arasko_power"
+                            android:layout_gravity="center|end"
+                            android:layout_marginEnd="10dp"
+                            app:tint="@color/white" />
 
 
                 </LinearLayout>

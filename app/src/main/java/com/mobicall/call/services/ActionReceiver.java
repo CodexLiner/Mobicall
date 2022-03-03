@@ -9,28 +9,42 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import com.mobicall.call.UI.HomeActivity;
+import com.mobicall.call.database.UserBreakHelper;
+import com.mobicall.call.database.bankBreakModel;
 import com.mobicall.call.stateManager.Constants;
 
 public class ActionReceiver extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
-        boolean action=intent.getBooleanExtra("isLogin" , false);
-        if(Constants.isLogin){
+        UserBreakHelper userBreakHelper = new UserBreakHelper(context);
+        bankBreakModel model = userBreakHelper.getStatus(1);
+        if (model!=null && model.getSTATUS().equals("start")){
+            userBreakHelper.addBreakStatus(1 , "end");
             Toast.makeText(context,"Break Started", Toast.LENGTH_SHORT).show();
-            performAction1();
-            Log.d("TAG", "performAction1: ");
-            Intent i = new Intent(context , ForegroundService.class);
-            i.putExtra("name" , "End Break");
-            context.startService(i);
-        }
-        else {
+        }else {
+            userBreakHelper.addBreakStatus(1 , "start");
             Toast.makeText(context,"Break Ended", Toast.LENGTH_SHORT).show();
-            performAction2();
-            Intent i = new Intent(context , ForegroundService.class);
-            i.putExtra("name" , "Take Break");
-            context.startService(i);
         }
+        boolean action=intent.getBooleanExtra("isLogin" , false);
+//        if(Constants.isLogin){
+//            Toast.makeText(context,"Break Started", Toast.LENGTH_SHORT).show();
+//            performAction1();
+//            userBreakHelper.addBreakStatus(1 , "start");
+//            Intent i = new Intent(context , ForegroundService.class);
+//            i.putExtra("name" , "End Break");
+//            context.startService(i);
+//        }
+//        else {
+//            userBreakHelper.addBreakStatus(1 , "end");
+//            Toast.makeText(context,"Break Ended", Toast.LENGTH_SHORT).show();
+//            performAction2();
+//            Intent i = new Intent(context , ForegroundService.class);
+//            i.putExtra("name" , "Take Break");
+//            context.startService(i);
+//        }
+
         //This is used to close the notification tray
         Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         context.sendBroadcast(it);

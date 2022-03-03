@@ -68,6 +68,7 @@
 
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -137,7 +138,6 @@
                         android:text="31 jan 22"
                         app:drawableStartCompat="@drawable/ic_arasko_cale" />
                 </LinearLayout>
-
             </LinearLayout>
             <LinearLayout
                 android:layout_gravity="center"
@@ -146,14 +146,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_weight="1"
-                    android:layout_gravity="start"
                     android:id="@+id/totalCustomer"
-                    android:visibility="invisible"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
                     android:layout_marginStart="15dp"
-                    android:fontFamily="@font/poppins_medium" />
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:visibility="invisible" />
                 <TextView
                     android:drawableTint="@color/main2"
                     android:textColor="@color/main2"

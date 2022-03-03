@@ -86,11 +86,34 @@ public class CallState extends BroadcastReceiver {
 //                }
             } else if (phoneState.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                 DrawWindow drawWindow = new DrawWindow(context);
-                Thread.sleep(2000);
+                Thread.sleep(1000);
                 String time = staticFunctions.getLastCallTime(context , null);
+                Log.d(TAG, "onReceive: "+time);
                 Pair<String , String> pair = staticFunctions.getLastCallTime(context);
                 Constants.MN = pair.first;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (time!=null && time.equals("0")){
+                    UpdaterClass updaterClass = new UpdaterClass(null ,
+                            null ,
+                            "0", "not connected" , null, context ,
+                            null
+                            ,pair.first
+                            ,null);
+                    updaterClass.execute();
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (Constants.byCallTask){
+                                Constants.byCallTask = false;
+                                if (Constants.indexValue - 1 < Constants.windowContact.size()){
+                                    Constants.windowContact.get(Constants.indexValue -1).setCall_status("not connected");
+                                    Constants.CustomerList = Constants.windowContact;
+                                }
+                                callTask callTask = new callTask(Constants.windowContact ,  Constants.indexValue , context);
+                                callTask.execute();
+                            }
+                        }
+                    },5000);
+                }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (staticFunctions.compare(context) && Constants.isLogin){
                         if (time!=null && !time.equals("0")){
                             if (pair!=null && pair.first != null && pair.second!=null){
