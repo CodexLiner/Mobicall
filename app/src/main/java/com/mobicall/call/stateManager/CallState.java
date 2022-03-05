@@ -94,7 +94,7 @@ public class CallState extends BroadcastReceiver {
                 if (time!=null && time.equals("0")){
                     UpdaterClass updaterClass = new UpdaterClass(null ,
                             null ,
-                            "0", "not connected" , null, context ,
+                            null, "not connected" , null, context ,
                             null
                             ,pair.first
                             ,null);
