@@ -387,6 +387,7 @@ public class HomeActivity extends AppCompatActivity {
                                               binding.clearFilter.setVisibility(View.GONE);
                                           }
                                           binding.swipe.setRefreshing(false);
+                                          binding.pending.setText(count.getNull_call_status());
                                           binding.totalCalled.setText(count.getTotal());
                                           binding.notConnected.setText(count.getNot_connected());
                                           binding.connected.setText(count.getConnected());

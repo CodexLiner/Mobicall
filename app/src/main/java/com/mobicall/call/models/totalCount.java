@@ -6,7 +6,16 @@ public class totalCount {
 //                "interested": 3,
 //                "not_interested": 0,
 //                "total": 3
-    String connected, not_connected,interested , not_interested ,total;
+    String connected, not_connected,interested , not_interested ,total , null_call_status;
+
+    public totalCount(String connected, String not_connected, String interested, String not_interested, String total, String null_call_status) {
+        this.connected = connected;
+        this.not_connected = not_connected;
+        this.interested = interested;
+        this.not_interested = not_interested;
+        this.total = total;
+        this.null_call_status = null_call_status;
+    }
 
     public String getConnected() {
         return connected;
@@ -48,22 +57,11 @@ public class totalCount {
         this.total = total;
     }
 
-    public totalCount(String connected, String not_connected, String interested, String not_interested, String total) {
-        this.connected = connected;
-        this.not_connected = not_connected;
-        this.interested = interested;
-        this.not_interested = not_interested;
-        this.total = total;
+    public String getNull_call_status() {
+        return null_call_status;
     }
 
-    @Override
-    public String toString() {
-        return "totalCount{" +
-                "connected='" + connected + '\'' +
-                ", not_connected='" + not_connected + '\'' +
-                ", interested='" + interested + '\'' +
-                ", not_interested='" + not_interested + '\'' +
-                ", total='" + total + '\'' +
-                '}';
+    public void setNull_call_status(String null_call_status) {
+        this.null_call_status = null_call_status;
     }
 }

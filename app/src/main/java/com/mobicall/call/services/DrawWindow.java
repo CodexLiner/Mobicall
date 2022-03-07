@@ -157,10 +157,10 @@ public class DrawWindow {
                     if (Constants.byCallTask && inWindow!=null){
                         String time = staticFunctions.getLastCallTime(context ,null);
                         UpdaterClass updaterClass = new UpdaterClass(Constants.UserDetails.getId() ,
-                                null , null, "connected" , time , context,
+                                null , "0", "connected" , time , context,
                                  Constants.UserDetails.getContact_name()
                                 ,Constants.UserDetails.getPhone()
-                                , Constants.UserDetails.getEmail());
+                                ,Constants.UserDetails.getEmail());
                         updaterClass.execute();
                         new Timer().schedule(new TimerTask() {
                             @Override
@@ -229,32 +229,40 @@ public class DrawWindow {
                 @Override
                 public void onClick(View v) {
                     if (Constants.byCallTask && inWindow!=null){
-                        String time = staticFunctions.getLastCallTime(context , null);
-                        String callStatus ="connected";
-                        String id = null;
-                        if (inWindow.get(Constants.indexValue- 1) !=null && Constants.UserDetails.getId()!=null){
-                            id = Constants.UserDetails.getId();
-                        }
-                        UpdaterClass updaterClass = new UpdaterClass(id ,
-                                desc.getText().toString().trim() ,
-                                "1", callStatus , time, context ,
-                                Constants.UserDetails.getContact_name()
-                                ,Constants.UserDetails.getPhone()
-                                , Constants.UserDetails.getEmail());
-                        updaterClass.execute();
-                        new Timer().schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                if (Constants.indexValue - 1 < Constants.windowContact.size()){
-                                    Constants.windowContact.get(Constants.indexValue -1).setCall_status("connected");
-                                    Constants.CustomerList = Constants.windowContact;
-                                }
-                                callTask callTask = new callTask(Constants.windowContact ,  Constants.indexValue , context);
-                                callTask.execute();
+                        try{
+                            String time = staticFunctions.getLastCallTime(context , null);
+                            String callStatus ="connected";
+                            String id = null;
+                            if (Constants.UserDetails.getId()!=null){
+                                id = Constants.UserDetails.getId();
                             }
-                        },5000);
+                            Log.d(TAG, "updaterClassName: int "+id);
+                            UpdaterClass updaterClass = new UpdaterClass(id ,
+                                    desc.getText().toString().trim() ,
+                                    "1", callStatus , time, context ,
+                                    name.getText().toString()
+                                    ,Constants.UserDetails.getPhone()
+                                    , email.getText().toString());
+                            updaterClass.execute();
+                            new Timer().schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    if (Constants.indexValue - 1 < Constants.windowContact.size()){
+                                        Constants.windowContact.get(Constants.indexValue -1).setCall_status("connected");
+                                        Constants.CustomerList = Constants.windowContact;
+                                    }
+                                    callTask callTask = new callTask(Constants.windowContact ,  Constants.indexValue , context);
+                                    callTask.execute();
+                                }
+                            },5000);
+                        }catch (Exception e){
+                            Log.d(TAG, "updaterClass: inside exception "+e);
+                        }
                     } else {
                         String id = null;
+                        if (Constants.UserDetails.getId()!=null){
+                            id = Constants.UserDetails.getId();
+                        }
                         String time = staticFunctions.getLastCallTime(context , null);
                         String callStatus ="connected";
                         UpdaterClass updaterClass = new UpdaterClass(id ,
@@ -262,7 +270,7 @@ public class DrawWindow {
                                 "1", callStatus , time, context ,
                                 name.getText().toString()
                                 ,Constants.UserDetails.getPhone()
-                                ,email.getText().toString());
+                                , email.getText().toString());
                         updaterClass.execute();
                     }
                     close();

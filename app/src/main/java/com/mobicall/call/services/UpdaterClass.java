@@ -1,5 +1,7 @@
 package com.mobicall.call.services;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -49,18 +51,33 @@ public class UpdaterClass extends AsyncTask<Void , Void , Void> {
     }
     private void loginVerify(){
         Map<String , String> map = new HashMap<>();
-        if (!(interested == null && desc == null && talktime==null)){
+        map.put("call_status" , call_status.toString().trim());
+        if (id!=null){
             map.put("id" , id);
-            map.put("interested" , interested);
-            map.put("description" , desc);
-            map.put("call_status" , call_status);
-            map.put("talktime" , talktime);
-            map.put("call_recording" , null);
-            map.put("phone" , number);
-        }else {
-            map.put("call_status" , call_status.toString().trim());
         }
-
+        if (interested!=null){
+            map.put("interested" , interested);
+        }
+        if (desc!=null){
+            map.put("description" , desc);
+        }
+        if (call_status!=null){
+            map.put("call_status" , call_status);
+        }
+        if (talktime!=null){
+            map.put("talktime" , talktime);
+        }
+        if (name!=null){
+            map.put("contact_name" , name);
+        }
+        if (email!=null){
+            map.put("email" , email);
+        }
+        map.put("call_recording" , null);
+        map.put("phone" , number);
+        if (call_status == null || call_status.equals("")){
+            call_status = "not connected";
+        }
         Gson gson = new Gson();
         String jsonString = gson.toJson(map);
         final RequestBody requestBody = RequestBody.create(jsonString , MediaType.get(Constants.mediaType));
@@ -68,13 +85,12 @@ public class UpdaterClass extends AsyncTask<Void , Void , Void> {
         new OkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.d("TAG", "onFailure: "+e.getLocalizedMessage());
+                Log.d("TAG", "updaterClass: "+e.getLocalizedMessage());
 
             }
-
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                Log.d("TAG", "onFailure: "+response.body().string());
+                Log.d("TAG", "updaterClass: "+response.body().string());
             }
         });
 

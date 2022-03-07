@@ -135,6 +135,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.holder
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Constants.indexValue = i;
                 callIntent.setData(Uri.parse("tel:"+mList.get(i).getPhone()));
                 holder.call.getContext().startActivity(callIntent);
             }

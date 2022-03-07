@@ -163,7 +163,6 @@ public class CallState extends BroadcastReceiver {
         if (model.getAuth()==null){
             return;
         }
-
         Request request = new Request.Builder().url(Constants.baseUrlbackend +"contacts").addHeader("authorization" , "Bearer "+model.getAuth()).get().build();
         new OkHttpClient()
                 .newCall(request)
@@ -199,7 +198,6 @@ public class CallState extends BroadcastReceiver {
     }
     private void startCallservice(List<contacts> contactList, Context context) {
         DrawWindow.setInWindow(contactList);
-        Constants.indexValue = 0;
         Constants.windowContact = contactList;
         Log.d("TAG", "calltask: service ");
         callTask callTask = new callTask(contactList, 0 , context);
